@@ -3,17 +3,17 @@
 ## 项目架构层次
 
 ```
-用户
- ↕
- 页面
- ↕
- Controller层
- ↕
- Service层
- ↕
- Mapper层
- ↕
- 数据库
+                    用户
+                     ↕
+                    页面
+                     ↕
+                Controller层
+                     ↕
+                  Service层
+                     ↕
+                  Mapper层
+                     ↕
+                   数据库
 ```
 
 ## 各层详细说明

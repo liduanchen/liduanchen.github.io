@@ -17,3 +17,5 @@ git commit -m "描述你的修改内容"
 
 # 6. 推送到远程仓库
 git push origin main
+# 强制推送
+git push -f origin main
