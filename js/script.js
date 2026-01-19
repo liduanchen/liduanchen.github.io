@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 根据页面类型执行初始化
     if (document.getElementById('posts-container')) {
+        initIntroScreen();
         initHomePage();
     } else if (document.getElementById('article-content')) {
         initArticlePage();
@@ -31,6 +32,36 @@ function initTheme() {
         themeBtn.innerText = isDark ? '☀️' : '🌙';
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
+}
+
+// --- 首页启动引导 ---
+function initIntroScreen() {
+    const intro = document.getElementById('intro-screen');
+    const enterBtn = document.getElementById('enter-site');
+    const main = document.getElementById('main-content');
+    if (!intro || !main) return;
+
+    let entered = false;
+    document.body.classList.add('intro-open');
+
+    const enterSite = () => {
+        if (entered) return;
+        entered = true;
+        intro.classList.add('intro-hidden');
+        document.body.classList.remove('intro-open');
+        document.body.classList.add('intro-ready');
+        setTimeout(() => {
+            intro.style.display = 'none';
+        }, 600);
+    };
+
+    enterBtn?.addEventListener('click', enterSite);
+    intro.addEventListener('wheel', enterSite, { once: true });
+    intro.addEventListener('touchmove', enterSite, { once: true });
+    intro.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') enterSite();
+    });
+    intro.addEventListener('click', enterSite);
 }
 
 // --- 首页逻辑 ---

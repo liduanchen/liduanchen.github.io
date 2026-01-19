@@ -6,11 +6,24 @@
     <title>灵感之源 | 个人博客</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    
 </head>
 <body>
     <div class="background-glow"></div>
+
+    <!-- 启动引导页 -->
+    <section id="intro-screen" class="intro-screen">
+        <div class="intro-content">
+            <h1>苦尽</h1>
+            <div class="intro-actions">
+                <button id="enter-site" class="intro-btn">进入主界面</button>
+                <span class="intro-hint">下滑 / 轻触空白区域也可进入</span>
+            </div>
+        </div>
+        <div class="intro-scroll-cue">↓</div>
+    </section>
     
     <!-- 导航栏 -->
     <nav class="navbar">
@@ -28,10 +41,10 @@
     </nav>
 
     <!-- 主要内容 -->
-    <main class="container">
+    <main id="main-content" class="container main-content">
         <section class="hero">
-            <h1 class="hero-title">探索、思考与创造</h1>
-            <p class="hero-subtitle">在这里，分享关于技术、设计与生活的点滴灵感。</p>
+            <h1 class="hero-title">Keep Hungry,Keep Foolish。</h1>
+            <p class="hero-subtitle">技术、学习与生活。</p>
             <div class="hero-stats">
                 <div class="stat-item">
                     <span class="stat-value" id="post-count">0</span>
@@ -69,6 +82,7 @@
         <div class="container footer-content">
             <p>&copy; 2026 <span class="accent-text">MySpace</span>. Made with Passion.</p>
             <div class="social-links">
+                
                 <!-- 可以在这里添加社交媒体图标 -->
             </div>
         </div>
