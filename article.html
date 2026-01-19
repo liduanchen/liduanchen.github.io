@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章详情 | 我的博客</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 引入 Marked.js 用于解析 Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- 引入 Highlight.js 用于代码高亮 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+
+<body class="page-article">
+    <div class="background-glow"></div>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span class="logo-dot"></span>
+                MySpace
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="about.html">关于</a></li>
+                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container article-container">
+        <div class="article-breadcrumb">
+            <a href="index.html">首页</a> / <span id="breadcrumb-category">分类</span>
+        </div>
+
+        <header class="article-header">
+            <h1 id="article-title" class="article-title-loading">加载中...</h1>
+            <div class="article-meta">
+                <span id="article-date"></span>
+                <span class="meta-dot">·</span>
+                <span id="article-category"></span>
+                <span class="meta-dot">·</span>
+                <span id="article-reading-time"></span>
+            </div>
+        </header>
+
+        <div id="article-content" class="article-content markdown-body">
+            <!-- Markdown 内容将渲染在这里 -->
+            <div class="loading-spinner"></div>
+        </div>
+
+        <section class="article-footer">
+            <div class="share-links">
+                <span>分享文章：</span>
+                <!-- 简单的分享按钮占位 -->
+                <button class="share-btn">微博</button>
+                <button class="share-btn">微信</button>
+            </div>
+            <a href="index.html" class="back-link">← 返回列表</a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <p>&copy; 2024 MySpace. Made with Passion.</p>
+        </div>
+    </footer>
+
+    <button id="back-to-top" class="back-to-top">↑</button>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

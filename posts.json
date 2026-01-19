@@ -1,0 +1,18 @@
+[
+  {
+    "id": "post1",
+    "title": "我的第一篇博客文章",
+    "date": "2024-01-15",
+    "excerpt": "这是我的第一篇博客文章，我很高兴能够搭建自己的博客网站。在这篇文章中，我会分享我的搭建经历...",
+    "category": "随笔",
+    "filename": "post1.md"
+  },
+  {
+    "id": "learning-programming",
+    "title": "如何开始学习编程",
+    "date": "2024-01-10",
+    "excerpt": "编程看起来很难，但其实入门并不复杂。让我分享一些学习经验，希望能帮助想要学习编程的朋友...",
+    "category": "教程",
+    "filename": "learning-programming.md"
+  }
+]

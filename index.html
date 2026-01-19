@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>灵感之源 | 个人博客</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="background-glow"></div>
+    
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span class="logo-dot"></span>
+                MySpace
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">首页</a></li>
+                <li><a href="about.html">关于</a></li>
+                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="container">
+        <section class="hero">
+            <h1 class="hero-title">探索、思考与创造</h1>
+            <p class="hero-subtitle">在这里，分享关于技术、设计与生活的点滴灵感。</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="post-count">0</span>
+                    <span class="stat-label">文章</span>
+                </div>
+                <div class="stat-separator"></div>
+                <div class="stat-item">
+                    <span class="stat-value">2024</span>
+                    <span class="stat-label">始于</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="posts-section">
+            <div class="section-header">
+                <h2 class="section-title">最新发布</h2>
+                <div class="category-filter">
+                    <button class="filter-btn active" data-category="all">全部</button>
+                    <button class="filter-btn" data-category="随笔">随笔</button>
+                    <button class="filter-btn" data-category="教程">教程</button>
+                </div>
+            </div>
+            
+            <div id="posts-container" class="posts-grid">
+                <!-- 这里的文章卡片将由 JS 动态生成 -->
+                <div class="skeleton-loader"></div>
+                <div class="skeleton-loader"></div>
+                <div class="skeleton-loader"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <p>&copy; 2024 <span class="accent-text">MySpace</span>. Made with Passion.</p>
+            <div class="social-links">
+                <!-- 可以在这里添加社交媒体图标 -->
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部 -->
+    <button id="back-to-top" class="back-to-top">↑</button>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
