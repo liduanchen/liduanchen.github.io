@@ -1,97 +1,217 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Article View | MySpace</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>文章阅读 | MySpace</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    
-    <!-- 核心库：Markdown 解析与代码高亮 -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- 代码高亮样式 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- 引入 Marked.js 用于解析 Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-color: #f5f5f7;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent-color: #0071e3;
+            --nav-bg: rgba(255, 255, 255, 0.7);
+        }
+        body.dark-mode {
+            --bg-color: #000000;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --nav-bg: rgba(28, 28, 30, 0.7);
+        }
+        * { box-sizing: border-box; }
+        body { margin:0; font-family: "Inter", "Noto Sans SC", sans-serif; background: var(--bg-color); color: var(--text-primary); transition: 0.3s; line-height: 1.6; }
+        
+        .navbar { position: sticky; top:0; background: var(--nav-bg); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.1); padding: 15px 0; z-index: 10; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 800; font-size: 1.2rem; color: var(--text-primary); text-decoration: none; }
+        
+        .article-container { padding-top: 60px; padding-bottom: 100px; min-height: 80vh; }
+        .article-breadcrumb { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; }
+        .article-breadcrumb a { color: var(--text-secondary); text-decoration: none; }
+        .article-breadcrumb a:hover { color: var(--accent-color); }
+        
+        .article-header { margin-bottom: 40px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 30px; }
+        .article-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 15px; line-height: 1.2; letter-spacing: -0.5px; }
+        .article-meta { color: var(--text-secondary); font-size: 0.9rem; }
+        
+        /* Markdown 内容样式 */
+        .markdown-body h2 { font-size: 1.8rem; margin-top: 2rem; margin-bottom: 1rem; font-weight: 700; letter-spacing: -0.5px; }
+        .markdown-body h3 { font-size: 1.4rem; margin-top: 1.5rem; margin-bottom: 0.8rem; font-weight: 600; }
+        .markdown-body p { margin-bottom: 1.5rem; font-size: 1.05rem; color: var(--text-primary); }
+        .markdown-body ul, .markdown-body ol { margin-bottom: 1.5rem; padding-left: 20px; }
+        .markdown-body li { margin-bottom: 0.5rem; }
+        .markdown-body pre { background: #282c34; border-radius: 12px; padding: 20px; overflow-x: auto; margin: 20px 0; }
+        .markdown-body code { font-family: 'Menlo', 'Monaco', monospace; font-size: 0.9em; }
+        .markdown-body blockquote { border-left: 4px solid var(--accent-color); margin: 0; padding-left: 20px; color: var(--text-secondary); font-style: italic; }
+        
+        .footer { text-align: center; font-size: 0.8rem; color: var(--text-secondary); padding: 40px 0; border-top: 1px solid rgba(0,0,0,0.1); }
+    </style>
 </head>
-
 <body class="page-article">
-    <div class="background-glow"></div>
 
     <nav class="navbar">
         <div class="container nav-content">
-            <a href="index.html" class="logo">
-                <span class="logo-dot"></span>
-                MySpace
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">首页</a></li>
-                <li><a href="about.html">关于</a></li>
-                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
-            </ul>
+            <a href="index.html" class="logo">MySpace</a>
+            <div>
+                <a href="index.html" style="color:var(--text-primary); text-decoration:none; font-size:0.9rem;">返回首页</a>
+            </div>
         </div>
     </nav>
 
     <main class="container article-container">
-        <!-- 面包屑导航 -->
-        <div class="article-breadcrumb">
-            <a href="index.html">Index</a> <span style="opacity:0.5; margin:0 5px;">/</span> <span id="breadcrumb-category">Category</span>
-        </div>
-
-        <!-- 文章头部信息 -->
-        <header class="article-header">
-            <h1 id="article-title" class="article-title-loading">Fetching Data...</h1>
-            <div class="article-meta">
-                <span id="article-date">Loading date</span>
-                <span class="meta-dot">·</span>
-                <span id="article-category">Uncategorized</span>
-                <span class="meta-dot">·</span>
-                <span id="article-reading-time">Calculating...</span>
+        <!-- 动态渲染区域 -->
+        <div id="loading" style="text-align: center; padding: 50px;">正在加载文章...</div>
+        
+        <div id="article-content" style="display: none;">
+            <div class="article-breadcrumb">
+                <a href="index.html">首页</a> / <span id="art-category">...</span>
             </div>
-        </header>
+            
+            <header class="article-header">
+                <h1 class="article-title" id="art-title">文章标题</h1>
+                <div class="article-meta" id="art-meta">
+                    发布信息
+                </div>
+            </header>
 
-        <!-- 正文区域 -->
-        <div id="article-content" class="article-content markdown-body">
-            <!-- 骨架屏 Loading 状态 -->
-            <div class="skeleton-text" style="width: 100%; height: 20px; margin-bottom: 15px;"></div>
-            <div class="skeleton-text" style="width: 90%; height: 20px; margin-bottom: 15px;"></div>
-            <div class="skeleton-text" style="width: 95%; height: 20px; margin-bottom: 40px;"></div>
-            <div class="skeleton-text" style="width: 80%; height: 200px; border-radius: 12px;"></div>
-        </div>
-
-        <hr style="margin: 4rem 0; border:none; border-top: 1px solid var(--border-color);">
-
-        <!-- 底部功能区 -->
-        <section class="article-footer" style="display: flex; justify-content: space-between; align-items: center;">
-            <a href="index.html" class="back-link">← Return to Index</a>
-            <div class="share-links">
-                <span style="font-size: 0.9rem; color: var(--text-secondary); margin-right: 10px;">Share:</span>
-                <button class="filter-btn" style="padding: 5px 15px; font-size: 0.8rem;">WeChat</button>
-                <button class="filter-btn" style="padding: 5px 15px; font-size: 0.8rem;">Link</button>
+            <div class="article-content markdown-body" id="art-body">
+                <!-- 内容将通过 JS 插入 -->
             </div>
-        </section>
+        </div>
     </main>
 
     <footer class="footer">
-        <div class="container footer-content">
-            <p>&copy; 2026 端木子宸. All Rights Reserved.</p>
+        <div class="container">
+            <p>&copy; 2026 MySpace. Designed for Thinking.</p>
         </div>
     </footer>
 
-    <button id="back-to-top" class="back-to-top">↑</button>
+    <!-- 代码高亮库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <script>
+        // ==========================================
+        //  模拟数据库 (包含文章的具体 Markdown 内容)
+        // ==========================================
+        const postsData = [
+            {
+                "id": "spring-boot-architecture",
+                "title": "Spring Boot 项目架构说明",
+                "date": "2026-01-19",
+                "category": "教程",
+                "content": `
+**摘要**：梳理一个典型 Spring Boot + MyBatis 项目的分层架构。
 
-    <script src="js/script.js"></script>
-    <style>
-        /* 简单的文本骨架屏动画 */
-        .skeleton-text {
-            background: rgba(0,0,0,0.05);
-            border-radius: 4px;
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-        body.dark-mode .skeleton-text {
-            background: rgba(255,255,255,0.05);
-        }
-    </style>
+## 1. 为什么需要分层？
+在企业级开发中，代码的可维护性比写得快更重要。Spring Boot 推荐的经典分层架构如下：
+
+- **Controller**: 处理 HTTP 请求，参数校验。
+- **Service**: 核心业务逻辑，事务控制。
+- **Mapper/DAO**: 直接与数据库交互。
+- **Entity/POJO**: 数据库表对应的实体类。
+
+## 2. 代码示例
+
+\`\`\`java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+    
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/{id}")
+    public Result<User> getUser(@PathVariable Long id) {
+        return Result.success(userService.getById(id));
+    }
+}
+\`\`\`
+
+## 3. 配置文件
+推荐使用 \`application.yml\` 而不是 properties 文件，因为它结构更清晰。
+
+> 架构不仅仅是代码的组织方式，更是思维的组织方式。
+                `
+            },
+            {
+                "id": "post1",
+                "title": "我的第一篇博客文章",
+                "date": "2026-01-15",
+                "category": "随笔",
+                "content": `
+这是我的第一篇博客文章，我很高兴能够搭建自己的博客网站。
+
+### 搭建初衷
+在这个信息碎片化的时代，我希望拥有一个属于自己的**数字花园**。不依赖任何第三方平台，完全掌控自己的数据。
+
+### 技术栈
+这个博客使用了以下技术：
+1. **HTML5 & CSS3**: 构建语义化结构和 Apple 风格的 UI。
+2. **Vanilla JS**: 原生 JavaScript 实现动态加载和 Canvas 动画。
+3. **JSON**: 作为轻量级的数据存储。
+
+希望你喜欢这里！
+                `
+            },
+            {
+                "id": "learning-programming",
+                "title": "如何开始学习编程",
+                "date": "2026-01-10",
+                "category": "教程",
+                "content": `
+编程看起来很难，但其实入门并不复杂。
+
+## 1. 选择一门语言
+对于初学者，我推荐：
+* **Python**: 语法简洁，适合数据分析和 AI。
+* **JavaScript**: 如果你想做网页，这是必选。
+
+## 2. 动手实践
+不要只看书，要动手写代码。遇到报错不要怕，StackOverflow 是你最好的朋友。
+
+> "Talk is cheap. Show me the code." - Linus Torvalds
+                `
+            }
+        ];
+
+        // ==========================================
+        //  核心逻辑：解析 URL 并渲染内容
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. 获取 URL 中的 id 参数 (例如 ?id=post1)
+            const params = new URLSearchParams(window.location.search);
+            const postId = params.get('id');
+
+            // 2. 查找对应文章
+            const post = postsData.find(p => p.id === postId);
+
+            if (post) {
+                // 3. 填充数据
+                document.getElementById('art-category').innerText = post.category;
+                document.getElementById('art-title').innerText = post.title;
+                document.getElementById('art-meta').innerText = `发布于 ${post.date} · 深度阅读`;
+                document.title = `${post.title} | MySpace`;
+
+                // 4. 解析 Markdown 并插入
+                const htmlContent = marked.parse(post.content);
+                document.getElementById('art-body').innerHTML = htmlContent;
+
+                // 5. 显示内容，激活代码高亮
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('article-content').style.display = 'block';
+                hljs.highlightAll();
+            } else {
+                // 404 处理
+                document.getElementById('loading').innerHTML = '<h1>404</h1><p>未找到该文章，可能已被删除。</p><a href="index.html">返回首页</a>';
+            }
+        });
+    </script>
 </body>
 </html>
