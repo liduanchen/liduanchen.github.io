@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Style Scrollytelling</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #f5f5f7;
+            --accent-color: #2997ff;
+            --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-stack);
+            overflow-x: hidden;
+            /* 隐藏默认滚动条，使用自定义逻辑，但保留滚动功能 */
+        }
+
+        /* 画布容器：固定在屏幕背后 */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 滚动轨道：决定页面的总高度 */
+        .scroll-track {
+            height: 500vh; /* 5个屏幕的高度 */
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 文本层 */
+        .text-layer {
+            position: relative;
+            width: 100%;
+        }
+
+        .section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            pointer-events: none; /* 让鼠标事件穿透到后面，如果需要 */
+        }
+
+        .section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0;
+            text-align: center;
+            background: linear-gradient(135deg, #fff 0%, #888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #86868b;
+            max-width: 600px;
+            text-align: center;
+            margin-top: 1rem;
+            line-height: 1.4;
+        }
+
+        .cta {
+            color: var(--accent-color);
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        /* 简单的加载指示器 */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            z-index: 10;
+            animation: bounce 2s infinite;
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. 背景画布 -->
+    <div id="canvas-container">
+        <canvas id="hero-canvas"></canvas>
+    </div>
+
+    <!-- 2. 滚动内容 -->
+    <div class="scroll-track">
+        <div class="text-layer">
+            <section class="section" id="sec-0">
+                <h1>The New Chip.</h1>
+                <p>Designed for the impossible.</p>
+            </section>
+            
+            <section class="section" id="sec-1">
+                <h1>Pure Speed.</h1>
+                <p>Processing millions of operations per second with zero latency.</p>
+            </section>
+
+            <section class="section" id="sec-2">
+                <h1>Integration.</h1>
+                <p>Unified memory architecture brings everything together.</p>
+            </section>
+
+            <section class="section" id="sec-3">
+                <h1>Efficiency.</h1>
+                <p>All day battery life. Power that lasts.</p>
+            </section>
+
+            <section class="section" id="sec-4">
+                <h1>Pro.</h1>
+                <p class="cta">Learn more ></p>
+            </section>
+        </div>
+    </div>
+
+    <div class="scroll-indicator">Scroll to explore</div>
+
+    <script>
+        /**
+         * 创意交互核心逻辑
+         * 1. 设置高DPI Canvas
+         * 2. 创建平滑滚动插值 (Lerp)
+         * 3. 绘制随着进度变化的几何图形
+         */
+        
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+        const sections = document.querySelectorAll('.section');
+        
+        // 状态管理
+        let state = {
+            scrollProgress: 0, // 当前滚动的百分比 (0 到 1)
+            targetProgress: 0, // 目标百分比 (由原生滚动条决定)
+            width: 0,
+            height: 0
+        };
+
+        // 线性插值函数：实现“惯性”效果
+        const lerp = (start, end, factor) => start + (end - start) * factor;
+
+        // 初始化 Canvas 尺寸（处理 Retina 屏）
+        function resize() {
+            state.width = window.innerWidth;
+            state.height = window.innerHeight;
+            
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = state.width * dpr;
+            canvas.height = state.height * dpr;
+            ctx.scale(dpr, dpr);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        // 核心绘图函数
+        function draw(progress) {
+            // 清空画布
+            ctx.clearRect(0, 0, state.width, state.height);
+            
+            // 保存上下文
+            ctx.save();
+            
+            // 将原点移动到屏幕中心
+            ctx.translate(state.width / 2, state.height / 2);
+
+            // --- 阶段 1: 基础变换参数计算 ---
+            // 随着滚动，物体会旋转、缩放、改变颜色
+            
+            // 旋转角度：从 0 旋转到 360度 (2PI) * 2
+            const rotation = progress * Math.PI * 4;
+            
+            // 缩放：先放大，中间缩小，最后再放大
+            // 使用正弦波模拟呼吸感
+            const scaleBase = state.width < 768 ? 0.8 : 1.5;
+            const scale = scaleBase + Math.sin(progress * Math.PI) * 0.5;
+            
+            // 颜色变换：从蓝色 -> 紫色 -> 橙色
+            // 简单模拟 Apple 的渐变色风格
+            let r, g, b;
+            if (progress < 0.5) {
+                // Blue to Purple
+                const p = progress * 2;
+                r = lerp(41, 150, p);
+                g = lerp(151, 50, p);
+                b = lerp(255, 200, p);
+            } else {
+                // Purple to Orange
+                const p = (progress - 0.5) * 2;
+                r = lerp(150, 255, p);
+                g = lerp(50, 165, p);
+                b = lerp(200, 0, p);
+            }
+            const color = `rgb(${r}, ${g}, ${b})`;
+
+            // --- 阶段 2: 绘制“芯片/设备” ---
+            // 我们画一个带有光晕的圆角矩形组，模拟 3D 旋转
+            
+            ctx.scale(scale, scale);
+            ctx.rotate(rotation);
+
+            // 模拟 3D：绘制多层叠加
+            const layers = 10;
+            const size = 100;
+            
+            for (let i = 0; i < layers; i++) {
+                // 根据进度拆解层级 (Explosion effect)
+                // 在进度 0.4 到 0.6 之间，层级会分开
+                let explosion = 0;
+                if (progress > 0.3 && progress < 0.7) {
+                    explosion = Math.sin((progress - 0.3) / 0.4 * Math.PI) * 50;
+                }
+
+                const offset = (i - layers/2) * (2 + explosion/5);
+                
+                // 计算视差透明度
+                const alpha = 1 - (Math.abs(i - layers/2) / layers) * 0.8;
+                
+                ctx.fillStyle = i === layers-1 ? '#ffffff' : color;
+                ctx.globalAlpha = alpha; // 设置透明度
+                
+                // 绘制每一层
+                // 使用简单的透视模拟：每一层稍微偏移
+                ctx.beginPath();
+                // 绘制圆角矩形
+                const x = -size / 2 + offset; // 简单的 3D 偏移模拟
+                const y = -size / 2 + offset;
+                roundRect(ctx, x, y, size, size, 20);
+                ctx.fill();
+                
+                // 如果是顶层，加一个 Logo 或者是核心发光点
+                if (i === layers - 1) {
+                    ctx.shadowBlur = 30;
+                    ctx.shadowColor = color;
+                    ctx.fillStyle = '#fff';
+                    ctx.beginPath();
+                    ctx.arc(x + size/2, y + size/2, 15, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+            }
+
+            // --- 阶段 3: 绘制连接线/数据流 (在中间部分出现) ---
+            if (progress > 0.1 && progress < 0.9) {
+                ctx.globalAlpha = 0.3;
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                // 画一个动态的环
+                const radius = 200 + Math.sin(Date.now() / 500) * 10;
+                ctx.arc(0, 0, radius * (1-progress), 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
+            ctx.restore();
+        }
+
+        // 辅助函数：绘制圆角矩形
+        function roundRect(ctx, x, y, width, height, radius) {
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+        }
+
+        // 动画循环
+        function loop() {
+            // 1. 获取目标滚动值
+            const scrollTrack = document.querySelector('.scroll-track');
+            const maxScroll = scrollTrack.clientHeight - window.innerHeight;
+            const currentScrollY = window.scrollY;
+            
+            state.targetProgress = Math.max(0, Math.min(1, currentScrollY / maxScroll));
+
+            // 2. 使用 Lerp 让 scrollProgress 慢慢追上 targetProgress
+            // 0.05 是阻尼系数，数值越小越“滑”，越大越跟手
+            state.scrollProgress = lerp(state.scrollProgress, state.targetProgress, 0.05);
+
+            // 3. 根据当前进度触发文字显隐 (CSS Class 切换)
+            updateTextSections(state.scrollProgress);
+
+            // 4. 绘制 Canvas
+            draw(state.scrollProgress);
+
+            requestAnimationFrame(loop);
+        }
+
+        function updateTextSections(progress) {
+            // 将 0-1 的进度映射到 5 个部分
+            const sectionCount = sections.length;
+            const step = 1 / (sectionCount - 0.5); // 稍微调整步长让最后一个也能显示
+
+            sections.forEach((section, index) => {
+                const start = index * step - 0.1;
+                const end = (index + 1) * step;
+
+                // 如果当前进度在区段内，添加 active 类
+                if (progress >= start && progress < end) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+        }
+
+        // 启动
+        loop();
+
+    </script>
+</body>
+</html>
