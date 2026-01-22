@@ -121,8 +121,9 @@
                         document.getElementById('art-meta').innerText = `发布于 ${post.date}`;
                         document.title = `${post.title} | MySpace`;
 
-                        // 3. 关键：根据 filename 加载真正的 Markdown 文件
-                        return fetch(post.filename); 
+                        // 3. 关键：根据 filename 加载真正的 Markdown 文件（统一从 posts/ 目录取）
+                        const filePath = 'posts/' + encodeURIComponent(post.filename);
+                        return fetch(filePath); 
                     } else {
                         throw new Error('Post not found in JSON');
                     }
