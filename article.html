@@ -93,124 +93,63 @@
         </div>
     </footer>
 
-    <!-- 代码高亮库 -->
+<!-- 确保在 head 或 body 中引入了这两个库 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    
+
     <script>
-        // ==========================================
-        //  模拟数据库 (包含文章的具体 Markdown 内容)
-        // ==========================================
-        const postsData = [
-            {
-                "id": "spring-boot-architecture",
-                "title": "Spring Boot 项目架构说明",
-                "date": "2026-01-19",
-                "category": "教程",
-                "content": `
-**摘要**：梳理一个典型 Spring Boot + MyBatis 项目的分层架构。
-
-## 1. 为什么需要分层？
-在企业级开发中，代码的可维护性比写得快更重要。Spring Boot 推荐的经典分层架构如下：
-
-- **Controller**: 处理 HTTP 请求，参数校验。
-- **Service**: 核心业务逻辑，事务控制。
-- **Mapper/DAO**: 直接与数据库交互。
-- **Entity/POJO**: 数据库表对应的实体类。
-
-## 2. 代码示例
-
-\`\`\`java
-@RestController
-@RequestMapping("/users")
-public class UserController {
-    
-    @Autowired
-    private UserService userService;
-
-    @GetMapping("/{id}")
-    public Result<User> getUser(@PathVariable Long id) {
-        return Result.success(userService.getById(id));
-    }
-}
-\`\`\`
-
-## 3. 配置文件
-推荐使用 \`application.yml\` 而不是 properties 文件，因为它结构更清晰。
-
-> 架构不仅仅是代码的组织方式，更是思维的组织方式。
-                `
-            },
-            {
-                "id": "post1",
-                "title": "我的第一篇博客文章",
-                "date": "2026-01-15",
-                "category": "随笔",
-                "content": `
-这是我的第一篇博客文章，我很高兴能够搭建自己的博客网站。
-
-### 搭建初衷
-在这个信息碎片化的时代，我希望拥有一个属于自己的**数字花园**。不依赖任何第三方平台，完全掌控自己的数据。
-
-### 技术栈
-这个博客使用了以下技术：
-1. **HTML5 & CSS3**: 构建语义化结构和 Apple 风格的 UI。
-2. **Vanilla JS**: 原生 JavaScript 实现动态加载和 Canvas 动画。
-3. **JSON**: 作为轻量级的数据存储。
-
-希望你喜欢这里！
-                `
-            },
-            {
-                "id": "learning-programming",
-                "title": "如何开始学习编程",
-                "date": "2026-01-10",
-                "category": "教程",
-                "content": `
-编程看起来很难，但其实入门并不复杂。
-
-## 1. 选择一门语言
-对于初学者，我推荐：
-* **Python**: 语法简洁，适合数据分析和 AI。
-* **JavaScript**: 如果你想做网页，这是必选。
-
-## 2. 动手实践
-不要只看书，要动手写代码。遇到报错不要怕，StackOverflow 是你最好的朋友。
-
-> "Talk is cheap. Show me the code." - Linus Torvalds
-                `
-            }
-        ];
-
-        // ==========================================
-        //  核心逻辑：解析 URL 并渲染内容
-        // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. 获取 URL 中的 id 参数 (例如 ?id=post1)
+            // 1. 获取 URL 中的 ID (例如 ?id=post1)
             const params = new URLSearchParams(window.location.search);
             const postId = params.get('id');
 
-            // 2. 查找对应文章
-            const post = postsData.find(p => p.id === postId);
-
-            if (post) {
-                // 3. 填充数据
-                document.getElementById('art-category').innerText = post.category;
-                document.getElementById('art-title').innerText = post.title;
-                document.getElementById('art-meta').innerText = `发布于 ${post.date} · 深度阅读`;
-                document.title = `${post.title} | MySpace`;
-
-                // 4. 解析 Markdown 并插入
-                const htmlContent = marked.parse(post.content);
-                document.getElementById('art-body').innerHTML = htmlContent;
-
-                // 5. 显示内容，激活代码高亮
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('article-content').style.display = 'block';
-                hljs.highlightAll();
-            } else {
-                // 404 处理
-                document.getElementById('loading').innerHTML = '<h1>404</h1><p>未找到该文章，可能已被删除。</p><a href="index.html">返回首页</a>';
+            if (!postId) {
+                window.location.href = 'index.html'; // 如果没有ID，回首页
+                return;
             }
+
+            // 2. 先加载 JSON 配置，找到对应的文件名
+            fetch('posts.json')
+                .then(res => res.json())
+                .then(posts => {
+                    const post = posts.find(p => p.id === postId);
+                    
+                    if (post) {
+                        // 渲染标题和元数据
+                        document.getElementById('art-category').innerText = post.category;
+                        document.getElementById('art-title').innerText = post.title;
+                        document.getElementById('art-meta').innerText = `发布于 ${post.date}`;
+                        document.title = `${post.title} | MySpace`;
+
+                        // 3. 关键：根据 filename 加载真正的 Markdown 文件
+                        return fetch(post.filename); 
+                    } else {
+                        throw new Error('Post not found in JSON');
+                    }
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error('Markdown file not found');
+                    return res.text();
+                })
+                .then(markdown => {
+                    // 4. 将 Markdown 转换为 HTML
+                    document.getElementById('art-body').innerHTML = marked.parse(markdown);
+                    
+                    // 显示内容区域，隐藏加载提示
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('article-content').style.display = 'block';
+                    
+                    // 代码高亮
+                    hljs.highlightAll();
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.getElementById('loading').innerHTML = `
+                        <h1>404</h1>
+                        <p>文章加载失败：${err.message}</p>
+                        <a href="index.html">返回首页</a>
+                    `;
+                });
         });
     </script>
 </body>

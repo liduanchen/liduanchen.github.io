@@ -294,58 +294,40 @@
 
         // --- 2. 网站数据逻辑 (核心修改) ---
         
+       // 修改 loadSiteData 函数，让它去请求 posts.json
         function loadSiteData() {
             const container = document.getElementById('posts-container');
             
-            // 你的 JSON 数据
-            const postsData = [
-              {
-                "id": "spring-boot-architecture",
-                "title": "Spring Boot 项目架构说明",
-                "date": "2026-01-19",
-                "excerpt": "梳理一个典型 Spring Boot + MyBatis 项目的分层架构：Controller、Service、Mapper、实体与配置文件的职责。",
-                "category": "教程",
-                "filename": "Spring Boot项目学习日记1.md"
-              },
-              {
-                "id": "post1",
-                "title": "我的第一篇博客文章",
-                "date": "2026-01-15",
-                "excerpt": "这是我的第一篇博客文章，我很高兴能够搭建自己的博客网站。在这篇文章中，我会分享我的搭建经历...",
-                "category": "随笔",
-                "filename": "post1.md"
-              },
-              {
-                "id": "learning-programming",
-                "title": "如何开始学习编程",
-                "date": "2026-01-10",
-                "excerpt": "编程看起来很难，但其实入门并不复杂。让我分享一些学习经验，希望能帮助想要学习编程的朋友...",
-                "category": "教程",
-                "filename": "learning-programming.md"
-              }
-            ];
+            // 1. 请求 posts.json 文件
+            fetch('posts.json')
+                .then(response => response.json())
+                .then(data => {
+                    // 更新文章数量
+                    document.getElementById('post-count').innerText = data.length;
+                    container.innerHTML = ''; // 清除骨架屏
 
-            setTimeout(() => {
-                document.getElementById('post-count').innerText = postsData.length;
-                container.innerHTML = ''; 
-
-                postsData.forEach(post => {
-                    const card = document.createElement('a');
-                    // 链接到文章详情页，带上 id 参数
-                    card.href = `article.html?id=${post.id}`;
-                    card.className = "post-card";
-                    card.innerHTML = `
-                        <div class="post-tag">${post.category}</div>
-                        <h3>${post.title}</h3>
-                        <p>${post.excerpt}</p>
-                        <div class="post-meta">
-                            <span>${post.date}</span>
-                            <span>阅读全文 →</span>
-                        </div>
-                    `;
-                    container.appendChild(card);
+                    // 2. 遍历数据生成卡片
+                    data.forEach(post => {
+                        const card = document.createElement('a');
+                        // 关键点：链接指向 article.html，并带上 id 参数
+                        card.href = `article.html?id=${post.id}`; 
+                        card.className = "post-card";
+                        card.innerHTML = `
+                            <div class="post-tag">${post.category}</div>
+                            <h3>${post.title}</h3>
+                            <p>${post.excerpt}</p>
+                            <div class="post-meta">
+                                <span>${post.date}</span>
+                                <span>阅读全文 →</span>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading posts:', error);
+                    container.innerHTML = '<p style="text-align:center">加载失败，请检查 posts.json 是否存在。</p>';
                 });
-            }, 800);
         }
 
         // 交互逻辑
