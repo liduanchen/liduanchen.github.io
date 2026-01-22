@@ -122,8 +122,10 @@
                         document.title = `${post.title} | MySpace`;
 
                         // 3. 关键：根据 filename 加载真正的 Markdown 文件（统一从 posts/ 目录取）
-                        const filePath = 'posts/' + encodeURIComponent(post.filename);
-                        return fetch(filePath); 
+                        const encodedPath = 'posts/' + encodeURIComponent(post.filename);
+                        const rawPath = 'posts/' + post.filename;
+                        // 优先尝试编码后的路径，失败则回退原始路径，避免中文/空格路径在某些本地服务器下 404
+                        return fetch(encodedPath).then(r => r.ok ? r : fetch(rawPath)); 
                     } else {
                         throw new Error('Post not found in JSON');
                     }
