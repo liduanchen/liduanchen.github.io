@@ -4,17 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文章详情 | 我的博客</title>
+    <title>Article View | MySpace</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <!-- 引入 Marked.js 用于解析 Markdown -->
+    
+    <!-- 核心库：Markdown 解析与代码高亮 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- 引入 Highlight.js 用于代码高亮 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 </head>
 
@@ -36,46 +34,64 @@
     </nav>
 
     <main class="container article-container">
+        <!-- 面包屑导航 -->
         <div class="article-breadcrumb">
-            <a href="index.html">首页</a> / <span id="breadcrumb-category">分类</span>
+            <a href="index.html">Index</a> <span style="opacity:0.5; margin:0 5px;">/</span> <span id="breadcrumb-category">Category</span>
         </div>
 
+        <!-- 文章头部信息 -->
         <header class="article-header">
-            <h1 id="article-title" class="article-title-loading">加载中...</h1>
+            <h1 id="article-title" class="article-title-loading">Fetching Data...</h1>
             <div class="article-meta">
-                <span id="article-date"></span>
+                <span id="article-date">Loading date</span>
                 <span class="meta-dot">·</span>
-                <span id="article-category"></span>
+                <span id="article-category">Uncategorized</span>
                 <span class="meta-dot">·</span>
-                <span id="article-reading-time"></span>
+                <span id="article-reading-time">Calculating...</span>
             </div>
         </header>
 
+        <!-- 正文区域 -->
         <div id="article-content" class="article-content markdown-body">
-            <!-- Markdown 内容将渲染在这里 -->
-            <div class="loading-spinner"></div>
+            <!-- 骨架屏 Loading 状态 -->
+            <div class="skeleton-text" style="width: 100%; height: 20px; margin-bottom: 15px;"></div>
+            <div class="skeleton-text" style="width: 90%; height: 20px; margin-bottom: 15px;"></div>
+            <div class="skeleton-text" style="width: 95%; height: 20px; margin-bottom: 40px;"></div>
+            <div class="skeleton-text" style="width: 80%; height: 200px; border-radius: 12px;"></div>
         </div>
 
-        <section class="article-footer">
+        <hr style="margin: 4rem 0; border:none; border-top: 1px solid var(--border-color);">
+
+        <!-- 底部功能区 -->
+        <section class="article-footer" style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="index.html" class="back-link">← Return to Index</a>
             <div class="share-links">
-                <span>分享文章：</span>
-                <!-- 简单的分享按钮占位 -->
-                <button class="share-btn">微博</button>
-                <button class="share-btn">微信</button>
+                <span style="font-size: 0.9rem; color: var(--text-secondary); margin-right: 10px;">Share:</span>
+                <button class="filter-btn" style="padding: 5px 15px; font-size: 0.8rem;">WeChat</button>
+                <button class="filter-btn" style="padding: 5px 15px; font-size: 0.8rem;">Link</button>
             </div>
-            <a href="index.html" class="back-link">← 返回列表</a>
         </section>
     </main>
 
     <footer class="footer">
         <div class="container footer-content">
-            <p>&copy; 2026 MySpace. Made with Passion.</p>
+            <p>&copy; 2026 端木子宸. All Rights Reserved.</p>
         </div>
     </footer>
 
     <button id="back-to-top" class="back-to-top">↑</button>
 
     <script src="js/script.js"></script>
+    <style>
+        /* 简单的文本骨架屏动画 */
+        .skeleton-text {
+            background: rgba(0,0,0,0.05);
+            border-radius: 4px;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        body.dark-mode .skeleton-text {
+            background: rgba(255,255,255,0.05);
+        }
+    </style>
 </body>
-
 </html>

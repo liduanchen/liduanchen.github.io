@@ -4,16 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关于我 | MySpace</title>
+    <title>About | 端木子宸</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* 针对 About 页面的微调 */
+        .profile-section {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ccc, #666);
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .bio-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+    </style>
 </head>
 
-<body class="page-about">
+<body>
     <div class="background-glow"></div>
 
     <nav class="navbar">
@@ -31,58 +51,65 @@
     </nav>
 
     <main class="container article-container">
-        <header class="article-header">
-            <h1 class="article-title">关于我</h1>
-            <p class="hero-subtitle" style="text-align: left; margin-left: 0;">探索未知，分享所得。</p>
+        <!-- 头部 Hero -->
+        <header class="profile-section">
+            <div class="profile-avatar" style="background-image: url('avatar.jpg'); background-size: cover;"></div> <!-- 这里可以换成你的头像图片 -->
+            <h1 class="hero-title" style="font-size: 3rem;">端木子宸</h1>
+            <p class="hero-subtitle">开发者 / 终身学习者 / 极简主义信奉者</p>
         </header>
 
         <section class="markdown-body">
-            <p>你好！我是一名对技术充满热情的学习者。我创建这个博客是为了记录我的学习旅程，分享我的想法和经验。</p>
-
             <blockquote>
-                “技术的魅力在于它能够改变世界，而学习的过程本身就是一次美妙的旅程。”
+                “在信息熵不断增加的数字时代，试图通过代码与文字，构建一个低熵的有序空间。”
             </blockquote>
 
-            <h2>我的兴趣</h2>
+            <h2>01. 个人综述</h2>
+            <p>
+                你好，我是端木子宸。与其单纯地将自己定义为一名开发者，我更倾向于视自己为一个<strong>问题的解决者</strong>。
+                我的技术哲学建立在“实用主义”与“美学追求”的平衡之上。我热衷于探索计算机科学的底层逻辑，同时痴迷于人机交互（HCI）的细腻质感。
+                本博客即是我建立个人知识体系（Knowledge Graph）的实验场，用于沉淀技术思考、设计灵感以及对世界的观察。
+            </p>
+
+            <h2>02. 研究与实践方向</h2>
+            <p>目前的关注点主要集中在以下领域：</p>
             <ul>
-                <li><strong>📚 阅读</strong> - 喜欢读各种书籍，尤其是技术类和个人成长类</li>
-                <li><strong>💻 编程</strong> - 热爱编写代码，创造有趣的项目</li>
-                <li><strong>✍️ 写作</strong> - 通过写作整理思路，记录成长</li>
-                <li><strong>🎵 音乐</strong> - 在音乐中寻找灵感</li>
+                <li><strong>Web 工程化</strong>：探索现代前端框架（React/Vue）在复杂应用中的架构设计与性能优化。</li>
+                <li><strong>全栈开发</strong>：基于 Node.js 与边缘计算（Edge Computing）构建高可用服务端。</li>
+                <li><strong>数字化生存</strong>：研究 Notion、Obsidian 等工具在个人知识管理（PKM）中的方法论。</li>
+                <li><strong>交互设计</strong>：从认知心理学角度出发，设计符合直觉的用户界面。</li>
             </ul>
 
-            <h2>专业技能</h2>
-            <p>我掌握了以下技术栈，并持续在领域深耕：</p>
+            <h2>03. 技术栈图谱</h2>
+            <p>在不断的工程实践中，我逐步构建了以下技术能力模型：</p>
             <ul>
-                <li>🌐 <strong>前端开发</strong>：HTML5, CSS3, Modern JavaScript (ES6+)</li>
-                <li>🎨 <strong>UI 设计</strong>：专注于极简与响应式布局</li>
-                <li>🔧 <strong>工具链</strong>：Git, VS Code, Chrome DevTools</li>
+                <li>💻 <strong>Core</strong>: HTML5 / CSS3 (Sass/Tailwind) / TypeScript</li>
+                <li>⚙️ <strong>Stack</strong>: Next.js / NestJS / Docker / CI/CD Pipelines</li>
+                <li>🎨 <strong>Creative</strong>: Figma / WebGL / Three.js</li>
             </ul>
 
-            <h2>联系方式</h2>
-            <p>欢迎与我交流任何有趣的想法：</p>
+            <h2>04. 联络与协作</h2>
+            <p>我相信开源精神与价值互联。如果你有有趣的项目、深刻的技术见解，或仅仅想探讨互联网的未来，欢迎通过以下信道建立连接：</p>
             <ul>
-                <li>📧 邮箱：14233516@cumt.edu.cn</li>
-                <li>🐙 GitHub：<a href="https://github.com/liduanchen">liduanchen</a></li>
+                <li><strong>Academic Mail</strong>: 14233516@cumt.edu.cn</li>
+                <li><strong>Code Space</strong>: <a href="https://github.com/liduanchen" target="_blank">github.com/liduanchen</a></li>
             </ul>
 
-            <hr style="margin: 3rem 0; border: none; border-top: 1px solid var(--border-color);">
+            <hr style="margin: 4rem 0; border-color: var(--border-color);">
 
-            <h2>关于这个空间</h2>
-            <p>这个博客空间致力于提供<strong>纯净、高效、美观</strong>的阅读体验。为了实现这一点，我采用了：</p>
-            <ul>
-                <li>动态加载架构：文章内容与结构分离</li>
-                <li>Markdown 引擎：使用 <a href="https://marked.js.org/">Marked.js</a> 进行高性能渲染</li>
-                <li>极简设计系统：基于 CSS 原生变量与磨砂玻璃效果</li>
-            </ul>
+            <h3>关于本站架构</h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                本站遵循 <a href="#">Jamstack</a> 架构理念构建。采用原生 JavaScript 进行动态渲染，
+                配合 <a href="https://marked.js.org/">Marked.js</a> 实现高效的 Markdown 解析，
+                视觉系统基于 CSS Variables 实现动态主题切换，旨在提供纯粹、无干扰的阅读体验。
+            </p>
         </section>
 
-        <a href="index.html" class="back-link" style="margin-top: 4rem; display: inline-block;">← 返回首页</a>
+        <a href="index.html" class="back-link" style="margin-top: 4rem; display: inline-block;">← 返回数字花园</a>
     </main>
 
     <footer class="footer">
         <div class="container footer-content">
-            <p>&copy; 2026 MySpace. Made with Passion.</p>
+            <p>&copy; 2026 端木子宸. Designed & Engineered with Passion.</p>
         </div>
     </footer>
 
@@ -90,5 +117,4 @@
 
     <script src="js/script.js"></script>
 </body>
-
 </html>
