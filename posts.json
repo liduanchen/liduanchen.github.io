@@ -22,5 +22,13 @@
     "excerpt": "编程看起来很难，但其实入门并不复杂。让我分享一些学习经验，希望能帮助想要学习编程的朋友...",
     "category": "教程",
     "filename": "learning-programming.md"
+  },
+  {
+    "id": "手势土星",
+    "title": "手势土星",
+    "date": "2026-01-26",
+    "excerpt": "交互小玩具",
+    "category": "随笔",
+    "filename": "手势土星.md"
   }
 ]

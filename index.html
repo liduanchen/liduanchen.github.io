@@ -198,7 +198,36 @@
                     <li><a href="#posts-section">项目</a></li>
                     <li><a href="about.html">关于</a></li>
                 </ul>
-                <button class="theme-toggle" id="theme-btn">☀️</button>
+                <!-- 手势土星组件 -->
+                <div class="saturn-wrapper">
+                    <!-- 1. 点击跳转的大图标 -->
+                    <a href="tuxing.html" class="saturn-icon-btn" title="点击进入手势土星">
+                        <!-- SVG 尺寸改为 50 (加大) -->
+                        <svg width="50" height="50" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 1. 光环后半段 (灰色 #9CA3AF) -->
+                            <path d="M28 14C31 15.5 31 19 26 21.5C23.5 22.8 20 23 18 23" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
+                            
+                            <!-- 2. 星球本体 (淡土黄 #E6D5AC) -->
+                            <circle cx="18" cy="18" r="9" fill="#E6D5AC" stroke="none"/>
+                            <!-- 星球立体阴影 -->
+                            <circle cx="18" cy="18" r="9" fill="url(#sphere-shadow)" style="mix-blend-mode: multiply; opacity: 0.15;"/>
+                            
+                            <!-- 3. 光环前半段 (灰色 #9CA3AF) -->
+                            <path d="M8 22C5 20.5 5 17 10 14.5C13.5 12.8 19 12.5 24 13.5" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
+
+                            <defs>
+                                <radialGradient id="sphere-shadow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(16 16) rotate(45) scale(14)">
+                                    <stop offset="0" stop-color="#fff" stop-opacity="0.5"/>
+                                    <stop offset="1" stop-color="#000" stop-opacity="0.5"/>
+                                </radialGradient>
+                            </defs>
+                        </svg>
+                    </a>
+                    
+                    <!-- 2. 下方文字 -->
+                    <span class="saturn-text">来玩手势土星</span>
+                </div>
+                <button class="theme-toggle" id="theme-btn" title="切换主题">🌙</button>
             </div>
         </nav>
 
