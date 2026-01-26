@@ -158,7 +158,7 @@
     <div id="fps-counter">物理引擎: 极致模式 | 环境: 太阳系模拟</div>
 
     <div id="loading">
-        正在构建百万粒子与行星数据...
+        正在构建十万粒子与行星数据...
     </div>
 
     <div id="ui-layer">
@@ -168,7 +168,7 @@
                 数据流状态: <span id="status-indicator" class="highlight">待机</span>
                 <br><br>
                 > 开普勒轨道: 运行中<br>
-                > 粒子总数: 80万+<br>
+                > 粒子总数: 10万+<br>
                 > 背景环境: 行星已加载
             </div>
         </div>
@@ -479,7 +479,7 @@
             camera.position.z = 100;
             camera.lookAt(0, 0, 0);
 
-            // 1. 初始化土星系统 (80万粒子)
+            // 1. 初始化土星系统 (10万粒子)
             initSaturn();
             
             // 2. 初始化背景星空 (5万粒子 + 星云)
@@ -508,7 +508,7 @@
         }
 
         function initSaturn() {
-            const particleCount = 800000; // 粒子总数：80万
+            const particleCount = 100000; // 粒子总数：10万
             const geometry = new THREE.BufferGeometry();
             
             // 申请内存
