@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>端木子宸 | 灵感之源</title>
+    <!-- 引入高级字体库 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           1. DESIGN SYSTEM (设计系统变量)
+           ========================================= */
+        :root {
+            --bg-color: #f5f5f7;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent-color: #0071e3;
+            --nav-bg: rgba(255, 255, 255, 0.7);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --font-stack: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+            --shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+            --radius: 20px;
+        }
+
+        body.dark-mode {
+            --bg-color: #000000;
+            --card-bg: #1c1c1e;
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --accent-color: #2997ff;
+            --nav-bg: rgba(28, 28, 30, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-stack);
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* 滚动条美化 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+        
+        /* 开场层样式 */
+        #cinematic-intro {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 9999; background-color: #000;
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.2s;
+        }
+        body.intro-finished #cinematic-intro { opacity: 0; visibility: hidden; pointer-events: none; }
+        body.intro-active { overflow: hidden; }
+        body.intro-finished { overflow-y: auto; }
+        canvas { width: 100%; height: 100%; display: block; }
+        
+        #intro-text-layer {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 100%; text-align: center; pointer-events: none;
+        }
+        .intro-caption {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 90%; opacity: 0; filter: blur(15px);
+            transition: opacity 0.8s, filter 0.8s, transform 1s;
+        }
+        .intro-caption.active { opacity: 1; filter: blur(0); transform: translate(-50%, -50%) scale(1); }
+        .intro-caption.exit { opacity: 0; filter: blur(25px); transform: translate(-50%, -50%) scale(1.1); }
+        
+        .sub-title { font-size: 0.9rem; color: #86868b; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; font-weight: 600; }
+        .intro-h2 { font-size: 3rem; color: #fff; font-weight: 700; margin: 0; }
+        .name-title {
+            font-size: 5rem; font-weight: 800; margin: 0;
+            background: linear-gradient(135deg, #fff 20%, #888 50%, #fff 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite; letter-spacing: -2px;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+        
+        .skip-btn {
+            position: absolute; bottom: 40px; right: 40px;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+            color: #fff; padding: 10px 24px; border-radius: 30px;
+            cursor: pointer; font-size: 13px; backdrop-filter: blur(10px);
+            transition: all 0.3s; z-index: 1000; letter-spacing: 1px;
+        }
+        .skip-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.05); }
+
+        /* 主内容布局 */
+        #main-wrapper {
+            opacity: 0; transform: translateY(40px);
+            transition: opacity 1.5s ease 0.5s, transform 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+        }
+        body.intro-finished #main-wrapper { opacity: 1; transform: translateY(0); }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+        
+        .navbar {
+            position: sticky; top: 0; z-index: 100; background: var(--nav-bg);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color); padding: 18px 0;
+        }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 800; font-size: 1.4rem; text-decoration: none; color: var(--text-primary); letter-spacing: -0.5px; }
+        .nav-links { list-style: none; display: flex; gap: 30px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-secondary); font-size: 0.95rem; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text-primary); }
+        
+        .theme-toggle { cursor: pointer; font-size: 1.2rem; background: none; border: none; padding: 5px; transition: transform 0.3s; }
+        .theme-toggle:hover { transform: rotate(15deg); }
+
+        .hero { text-align: center; padding: 120px 0 80px; }
+        .hero-title {
+            font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -1px; line-height: 1.1;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero-subtitle { color: var(--text-secondary); font-size: 1.3rem; margin-bottom: 50px; }
+        
+        .hero-stats { display: flex; justify-content: center; gap: 60px; }
+        .stat-item strong { display: block; font-size: 2rem; color: var(--accent-color); font-weight: 700; }
+        .stat-item span { color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        .posts-section { padding-bottom: 100px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        .posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+        .post-card {
+            background: var(--card-bg); border-radius: var(--radius);
+            padding: 30px; border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-decoration: none; color: inherit; display: flex; flex-direction: column;
+            position: relative; overflow: hidden;
+        }
+        .post-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); border-color: var(--accent-color); }
+        .post-tag { font-size: 0.8rem; font-weight: 700; color: var(--accent-color); text-transform: uppercase; margin-bottom: 15px; }
+        .post-card h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--text-primary); font-weight: 700; line-height: 1.3; }
+        .post-card p { color: var(--text-secondary); font-size: 1rem; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
+        .post-meta { font-size: 0.85rem; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center; }
+
+        .skeleton { height: 280px; background: rgba(0,0,0,0.05); border-radius: var(--radius); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% {opacity: 0.6;} 50% {opacity: 1;} 100% {opacity: 0.6;} }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .name-title { font-size: 3.5rem; }
+            .hero-stats { gap: 30px; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body class="intro-active">
+
+    <!-- 1. 电影级开场层 -->
+    <div id="cinematic-intro">
+        <canvas id="intro-canvas"></canvas>
+        <div id="intro-text-layer">
+            <div class="intro-caption" data-start="0.05" data-end="0.25">
+                <p class="sub-title">Welcome</p>
+                <h2 class="intro-h2">灵感之源</h2>
+            </div>
+            <div class="intro-caption" data-start="0.30" data-end="0.55">
+                <p class="sub-title">Explore & Create</p>
+                <h2 class="intro-h2">探索 · 记录 · 成长</h2>
+            </div>
+            <div class="intro-caption" data-start="0.60" data-end="0.88">
+                <p class="sub-title">Developer & Creator</p>
+                <h1 class="name-title">端木子宸</h1>
+            </div>
+        </div>
+        <button class="skip-btn" id="enter-site-btn">直接进入 ></button>
+    </div>
+
+    <!-- 2. 网站主内容 -->
+    <div id="main-wrapper">
+        <nav class="navbar">
+            <div class="container nav-content">
+                <a href="#top" class="logo">端木子宸.</a>
+                <ul class="nav-links">
+                    <li><a href="#top" class="active">首页</a></li>
+                    <li><a href="#posts-section">随笔</a></li>
+                    <li><a href="#posts-section">项目</a></li>
+                    <li><a href="about.html">关于</a></li>
+                </ul>
+                <button class="theme-toggle" id="theme-btn">☀️</button>
+            </div>
+        </nav>
+
+        <main class="container" id="top">
+            <section class="hero">
+                <h1 class="hero-title">Keep Hungry,<br>Keep Foolish.</h1>
+                <p class="hero-subtitle">代码、设计与生活的思考碎片。</p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <strong id="post-count">0</strong>
+                        <span>文章</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>2026</strong>
+                        <span>始于</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>∞</strong>
+                        <span>可能</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="posts-section" id="posts-section">
+                <div class="section-header">
+                    <h2 style="font-size: 1.8rem; font-weight:700;">最新发布</h2>
+                    <span style="color:var(--text-secondary); font-size:0.9rem;">View All ></span>
+                </div>
+                
+                <div id="posts-container" class="posts-grid">
+                    <!-- 骨架屏 -->
+                    <div class="skeleton"></div>
+                    <div class="skeleton"></div>
+                    <div class="skeleton"></div>
+                </div>
+            </section>
+            
+            <footer style="text-align: center; color: var(--text-secondary); margin-top: 80px; padding-bottom: 40px; border-top: 1px solid var(--border-color); padding-top: 40px;">
+                &copy; 2026 端木子宸 | Designed with passion.
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // --- 1. Canvas 动画逻辑 (保持不变，略微压缩) ---
+        const canvas = document.getElementById('intro-canvas');
+        const ctx = canvas.getContext('2d');
+        const DURATION = 8500; 
+        let startTime = null, animationFrameId, isIntroFinished = false;
+        let state = { width: 0, height: 0, progress: 0, stars: [] };
+
+        function resize() {
+            state.width = window.innerWidth;
+            state.height = window.innerHeight;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = state.width * dpr; canvas.height = state.height * dpr;
+            ctx.scale(dpr, dpr);
+            state.stars = Array.from({length: 100}, () => ({
+                x: (Math.random()-0.5)*state.width*2, y: (Math.random()-0.5)*state.height*2,
+                z: Math.random()*2+0.5, size: Math.random()*1.5
+            }));
+        }
+        function draw(progress) {
+            ctx.fillStyle = '#000000'; ctx.fillRect(0,0,state.width,state.height);
+            const cx = state.width/2, cy = state.height/2;
+            ctx.fillStyle='rgba(255,255,255,0.4)';
+            state.stars.forEach(s=>{
+                const sc=1+progress*0.8, x=cx+s.x*sc/s.z, y=cy+s.y*sc/s.z;
+                ctx.beginPath(); ctx.arc(x,y,s.size,0,6.28); ctx.fill();
+            });
+            // 简单模拟原动画的视觉占位
+            ctx.save(); ctx.translate(cx, cy);
+            if(progress<0.35) { ctx.fillStyle='#0071e3'; ctx.beginPath(); ctx.arc(0,0,50,0,6.28); ctx.fill(); }
+            else { ctx.fillStyle='#222'; ctx.strokeStyle='#555'; ctx.roundRect(-80,-80,160,160,20); ctx.fill(); ctx.stroke(); }
+            ctx.restore();
+        }
+        function loop(ts) {
+            if(isIntroFinished) return;
+            if(!startTime) startTime=ts;
+            state.progress = Math.min((ts-startTime)/DURATION, 1);
+            draw(state.progress);
+            // 字幕控制
+            document.querySelectorAll('.intro-caption').forEach(el => {
+                const s=parseFloat(el.dataset.start), e=parseFloat(el.dataset.end);
+                if(state.progress>=s && state.progress<=e) el.classList.add('active');
+                else el.classList.remove('active');
+            });
+            if(state.progress<1) requestAnimationFrame(loop);
+            else finishIntro();
+        }
+        function finishIntro() {
+            if(isIntroFinished) return;
+            isIntroFinished=true;
+            document.body.classList.remove('intro-active');
+            document.body.classList.add('intro-finished');
+            setTimeout(loadSiteData, 500);
+        }
+
+        // --- 2. 网站数据逻辑 (核心修改) ---
+        
+       // 修改 loadSiteData 函数，让它去请求 posts.json
+        function loadSiteData() {
+            const container = document.getElementById('posts-container');
+            
+            // 1. 请求 posts.json 文件
+            fetch('posts.json')
+                .then(response => response.json())
+                .then(data => {
+                    // 更新文章数量
+                    document.getElementById('post-count').innerText = data.length;
+                    container.innerHTML = ''; // 清除骨架屏
+
+                    // 2. 遍历数据生成卡片
+                    data.forEach(post => {
+                        const card = document.createElement('a');
+                        // 关键点：链接指向 article.html，并带上 id 参数
+                        card.href = `article.html?id=${post.id}`; 
+                        card.className = "post-card";
+                        card.innerHTML = `
+                            <div class="post-tag">${post.category}</div>
+                            <h3>${post.title}</h3>
+                            <p>${post.excerpt}</p>
+                            <div class="post-meta">
+                                <span>${post.date}</span>
+                                <span>阅读全文 →</span>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading posts:', error);
+                    container.innerHTML = '<p style="text-align:center">加载失败，请检查 posts.json 是否存在。</p>';
+                });
+        }
+
+        // 交互逻辑
+        const themeBtn = document.getElementById('theme-btn');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeBtn.innerText = document.body.classList.contains('dark-mode') ? '🌙' : '☀️';
+        });
+
+        window.addEventListener('resize', resize);
+        document.getElementById('enter-site-btn').addEventListener('click', finishIntro);
+        resize();
+        requestAnimationFrame(loop);
+
+    </script>
+</body>
+</html>

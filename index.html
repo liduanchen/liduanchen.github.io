@@ -11,7 +11,7 @@
     
     <style>
         /* =========================================
-           1. DESIGN SYSTEM (设计系统变量)
+           1. DESIGN SYSTEM
            ========================================= */
         :root {
             --bg-color: #f5f5f7;
@@ -53,39 +53,43 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
         
-        /* 开场层样式 */
+        /* =========================================
+           2. CINEMATIC INTRO (重构版)
+           ========================================= */
         #cinematic-intro {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: 9999; background-color: #000;
-            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.2s;
+            z-index: 9999; background-color: #000; /* 纯黑背景，突出主体 */
+            transition: opacity 1.0s ease 0.5s, visibility 1.0s 0.5s;
         }
         body.intro-finished #cinematic-intro { opacity: 0; visibility: hidden; pointer-events: none; }
         body.intro-active { overflow: hidden; }
         body.intro-finished { overflow-y: auto; }
+        
         canvas { width: 100%; height: 100%; display: block; }
         
         #intro-text-layer {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 100%; text-align: center; pointer-events: none;
+            /* 移除 mix-blend-mode 以防止颜色混合产生杂色 */
+            z-index: 2;
         }
+        
         .intro-caption {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 90%; opacity: 0; filter: blur(15px);
-            transition: opacity 0.8s, filter 0.8s, transform 1s;
+            width: 100%; opacity: 0; filter: blur(10px);
+            transition: opacity 0.8s ease, filter 0.8s ease, transform 1s ease;
         }
         .intro-caption.active { opacity: 1; filter: blur(0); transform: translate(-50%, -50%) scale(1); }
-        .intro-caption.exit { opacity: 0; filter: blur(25px); transform: translate(-50%, -50%) scale(1.1); }
+        /* 文字退出时稍微上浮 */
+        .intro-caption.exit { opacity: 0; filter: blur(20px); transform: translate(-50%, -60%); }
         
-        .sub-title { font-size: 0.9rem; color: #86868b; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; font-weight: 600; }
-        .intro-h2 { font-size: 3rem; color: #fff; font-weight: 700; margin: 0; }
+        .sub-title { font-size: 0.9rem; color: #a1a1aa; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 12px; font-weight: 500; }
+        .intro-h2 { font-size: 3.5rem; color: #fff; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
         .name-title {
-            font-size: 5rem; font-weight: 800; margin: 0;
-            background: linear-gradient(135deg, #fff 20%, #888 50%, #fff 80%);
-            background-size: 200% auto;
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shine 4s linear infinite; letter-spacing: -2px;
+            font-size: 5rem; font-weight: 800; margin: 0; color: #fff;
+            letter-spacing: -2px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        @keyframes shine { to { background-position: 200% center; } }
         
         .skip-btn {
             position: absolute; bottom: 40px; right: 40px;
@@ -96,10 +100,12 @@
         }
         .skip-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.05); }
 
-        /* 主内容布局 */
+        /* =========================================
+           3. MAIN LAYOUT
+           ========================================= */
         #main-wrapper {
-            opacity: 0; transform: translateY(40px);
-            transition: opacity 1.5s ease 0.5s, transform 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1.2s ease 0.8s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.8s;
         }
         body.intro-finished #main-wrapper { opacity: 1; transform: translateY(0); }
 
@@ -161,7 +167,7 @@
 </head>
 <body class="intro-active">
 
-    <!-- 1. 电影级开场层 -->
+    <!-- 开场动画 -->
     <div id="cinematic-intro">
         <canvas id="intro-canvas"></canvas>
         <div id="intro-text-layer">
@@ -169,19 +175,19 @@
                 <p class="sub-title">Welcome</p>
                 <h2 class="intro-h2">灵感之源</h2>
             </div>
-            <div class="intro-caption" data-start="0.30" data-end="0.55">
-                <p class="sub-title">Explore & Create</p>
-                <h2 class="intro-h2">探索 · 记录 · 成长</h2>
+            <div class="intro-caption" data-start="0.30" data-end="0.60">
+                <p class="sub-title">Code & Design</p>
+                <h2 class="intro-h2">秩序与美学</h2>
             </div>
-            <div class="intro-caption" data-start="0.60" data-end="0.88">
-                <p class="sub-title">Developer & Creator</p>
+            <div class="intro-caption" data-start="0.70" data-end="0.95">
+                <p class="sub-title">Developer</p>
                 <h1 class="name-title">端木子宸</h1>
             </div>
         </div>
-        <button class="skip-btn" id="enter-site-btn">直接进入 ></button>
+        <button class="skip-btn" id="enter-site-btn">跳过动画</button>
     </div>
 
-    <!-- 2. 网站主内容 -->
+    <!-- 主站内容 -->
     <div id="main-wrapper">
         <nav class="navbar">
             <div class="container nav-content">
@@ -198,8 +204,8 @@
 
         <main class="container" id="top">
             <section class="hero">
-                <h1 class="hero-title">Keep Hungry,<br>Keep Foolish.</h1>
-                <p class="hero-subtitle">代码、设计与生活的思考碎片。</p>
+                <h1 class="hero-title">Think Different,<br>Make It Simple.</h1>
+                <p class="hero-subtitle">探索代码的边界，记录思维的火花。</p>
                 
                 <div class="hero-stats">
                     <div class="stat-item">
@@ -208,23 +214,22 @@
                     </div>
                     <div class="stat-item">
                         <strong>2026</strong>
-                        <span>始于</span>
+                        <span>Copyright</span>
                     </div>
                     <div class="stat-item">
                         <strong>∞</strong>
-                        <span>可能</span>
+                        <span>Ideas</span>
                     </div>
                 </div>
             </section>
 
             <section class="posts-section" id="posts-section">
                 <div class="section-header">
-                    <h2 style="font-size: 1.8rem; font-weight:700;">最新发布</h2>
+                    <h2 style="font-size: 1.8rem; font-weight:700;">Recent Posts</h2>
                     <span style="color:var(--text-secondary); font-size:0.9rem;">View All ></span>
                 </div>
                 
                 <div id="posts-container" class="posts-grid">
-                    <!-- 骨架屏 -->
                     <div class="skeleton"></div>
                     <div class="skeleton"></div>
                     <div class="skeleton"></div>
@@ -232,69 +237,198 @@
             </section>
             
             <footer style="text-align: center; color: var(--text-secondary); margin-top: 80px; padding-bottom: 40px; border-top: 1px solid var(--border-color); padding-top: 40px;">
-                &copy; 2026 端木子宸 | Designed with passion.
+                &copy; 2026 端木子宸 | Crafted with code.
             </footer>
         </main>
     </div>
 
     <script>
-        // --- 1. Canvas 动画逻辑 (保持不变，略微压缩) ---
+        // =========================================
+        // 核心修改：Blue Circle -> Silver Window Animation
+        // =========================================
         const canvas = document.getElementById('intro-canvas');
         const ctx = canvas.getContext('2d');
-        const DURATION = 8500; 
+        const DURATION = 8000; 
         let startTime = null, animationFrameId, isIntroFinished = false;
-        let state = { width: 0, height: 0, progress: 0, stars: [] };
+        
+        let state = { width: 0, height: 0, stars: [] };
+
+        // 缓动函数：使用 easeInOutCubic 保证变形过程顺滑
+        function easeInOutCubic(x) {
+            return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+        }
+        function lerp(start, end, t) { return start * (1 - t) + end * t; }
+        
+        // 映射函数：限制范围
+        function map(value, low1, high1, low2, high2) {
+            let val = (value - low1) / (high1 - low1);
+            val = Math.max(0, Math.min(1, val));
+            return lerp(low2, high2, val);
+        }
 
         function resize() {
             state.width = window.innerWidth;
             state.height = window.innerHeight;
             const dpr = window.devicePixelRatio || 1;
-            canvas.width = state.width * dpr; canvas.height = state.height * dpr;
+            canvas.width = state.width * dpr; 
+            canvas.height = state.height * dpr;
             ctx.scale(dpr, dpr);
-            state.stars = Array.from({length: 100}, () => ({
-                x: (Math.random()-0.5)*state.width*2, y: (Math.random()-0.5)*state.height*2,
-                z: Math.random()*2+0.5, size: Math.random()*1.5
+            
+            // 背景粒子 (保持白色/灰色，不添加杂色)
+            state.stars = Array.from({length: 80}, () => ({
+                x: (Math.random()-0.5) * state.width * 2, 
+                y: (Math.random()-0.5) * state.height * 2,
+                z: Math.random() * 2 + 0.5,
+                size: Math.random()
             }));
         }
+
         function draw(progress) {
-            ctx.fillStyle = '#000000'; ctx.fillRect(0,0,state.width,state.height);
-            const cx = state.width/2, cy = state.height/2;
-            ctx.fillStyle='rgba(255,255,255,0.4)';
-            state.stars.forEach(s=>{
-                const sc=1+progress*0.8, x=cx+s.x*sc/s.z, y=cy+s.y*sc/s.z;
-                ctx.beginPath(); ctx.arc(x,y,s.size,0,6.28); ctx.fill();
+            const easeProgress = easeInOutCubic(progress);
+
+            // 1. 背景：纯黑
+            ctx.fillStyle = '#000000'; 
+            ctx.fillRect(0, 0, state.width, state.height);
+            
+            const cx = state.width / 2;
+            const cy = state.height / 2;
+
+            // 2. 星星/粒子 (极简风格，只用灰白色)
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            state.stars.forEach(s => {
+                // 模拟 Z 轴飞行，速度适中
+                let depth = s.z - (progress * 5); 
+                while(depth <= 0.1) depth += 3;
+                const scale = 1 / depth;
+                const x = cx + s.x * scale;
+                const y = cy + s.y * scale;
+                ctx.beginPath();
+                ctx.arc(x, y, s.size * scale * 1.5, 0, Math.PI*2);
+                ctx.fill();
             });
-            // 简单模拟原动画的视觉占位
-            ctx.save(); ctx.translate(cx, cy);
-            if(progress<0.35) { ctx.fillStyle='#0071e3'; ctx.beginPath(); ctx.arc(0,0,50,0,6.28); ctx.fill(); }
-            else { ctx.fillStyle='#222'; ctx.strokeStyle='#555'; ctx.roundRect(-80,-80,160,160,20); ctx.fill(); ctx.stroke(); }
+
+            // 3. 核心物体变形 (Blue Circle -> Silver Window)
+            // 设定变形区间：0.35 开始，0.65 结束
+            const morphStart = 0.35;
+            const morphEnd = 0.65;
+            const t = map(progress, morphStart, morphEnd, 0, 1);
+            const smoothT = easeInOutCubic(t);
+
+            ctx.save();
+            ctx.translate(cx, cy);
+
+            // A. 颜色计算 (Blue -> Silver Grey)
+            // Start: Apple Blue [0, 113, 227] (#0071e3)
+            // End: Silver Grey [229, 229, 234] (#e5e5ea - macOS light window)
+            // Start: Apple Blue [0, 113, 227]
+            // End: Dark Grey [45, 45, 50] (深空灰，类似 macOS 深色模式)
+            const r = lerp(0, 45, smoothT);
+            const g = lerp(113, 45, smoothT);
+            const b = lerp(227, 50, smoothT);
+            // B. 形状计算
+            // 初始: 宽100, 高100 (圆)
+            // 结束: 宽260, 高160 (矩形窗体)
+            const w = lerp(100, 260, smoothT);
+            const h = lerp(100, 160, smoothT);
+            
+            // 圆角计算
+            // 初始圆角: 宽度的一半 (50) -> 完美圆
+            // 结束圆角: 12 (macOS 窗口圆角)
+            const currentRadius = lerp(50, 12, smoothT);
+            
+            // 确保在变形初期它看起来像个圆
+            // 只有当宽度开始变大时，圆角才开始缩小，但不能超过当前宽度的一半
+            const actualRadius = Math.min(currentRadius, w/2);
+
+            // C. 绘制主图形
+            // 阴影
+            ctx.shadowColor = `rgba(${r},${g},${b}, 0.5)`;
+            ctx.shadowBlur = lerp(40, 20, smoothT); // 圆的时候发光大，窗体时候阴影小
+            
+            ctx.fillStyle = `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
+            ctx.beginPath();
+            if (ctx.roundRect) {
+                ctx.roundRect(-w/2, -h/2, w, h, actualRadius);
+            } else {
+                ctx.rect(-w/2, -h/2, w, h);
+            }
+            ctx.fill();
+
+            // D. 绘制 macOS 窗口控件 (红黄绿点)
+            // 仅在变形快结束且变成矩形后显示 (progress > 0.6)
+            if (smoothT > 0.8) {
+                const alpha = (smoothT - 0.8) * 5; // 0 -> 1 淡入
+                const startX = -w/2 + 20; // 左上角起始位置
+                const startY = -h/2 + 20; // 垂直居中于标题栏位置
+                const gap = 20;
+
+                // 消除阴影以免影响点
+                ctx.shadowBlur = 0;
+
+                // 红点
+                ctx.fillStyle = `rgba(255, 95, 87, ${alpha})`; // macOS Red
+                ctx.beginPath(); ctx.arc(startX, startY, 6, 0, Math.PI*2); ctx.fill();
+
+                // 黄点
+                ctx.fillStyle = `rgba(255, 189, 46, ${alpha})`; // macOS Yellow
+                ctx.beginPath(); ctx.arc(startX + gap, startY, 6, 0, Math.PI*2); ctx.fill();
+
+                // 绿点
+                ctx.fillStyle = `rgba(39, 201, 63, ${alpha})`; // macOS Green
+                ctx.beginPath(); ctx.arc(startX + gap*2, startY, 6, 0, Math.PI*2); ctx.fill();
+                
+                // 窗口内部简单的“骨架” (暗示内容)
+                ctx.fillStyle = `rgba(255,255,255, ${alpha * 0.15})`;
+                // 模拟一行标题
+                ctx.fillRect(startX, startY + 25, w - 40, 4);
+                // 模拟正文
+                ctx.fillRect(startX, startY + 38, w - 60, 4);
+                ctx.fillRect(startX, startY + 51, w - 80, 4);
+            }
+
             ctx.restore();
         }
+
         function loop(ts) {
-            if(isIntroFinished) return;
-            if(!startTime) startTime=ts;
-            state.progress = Math.min((ts-startTime)/DURATION, 1);
-            draw(state.progress);
-            // 字幕控制
+            if (isIntroFinished) return;
+            if (!startTime) startTime = ts;
+            const elapsed = ts - startTime;
+            let progress = elapsed / DURATION;
+            if (progress > 1) progress = 1;
+
+            draw(progress);
+
+            // 字幕逻辑
             document.querySelectorAll('.intro-caption').forEach(el => {
-                const s=parseFloat(el.dataset.start), e=parseFloat(el.dataset.end);
-                if(state.progress>=s && state.progress<=e) el.classList.add('active');
-                else el.classList.remove('active');
+                const s = parseFloat(el.dataset.start);
+                const e = parseFloat(el.dataset.end);
+                if (progress >= s && progress <= e) {
+                    el.classList.add('active');
+                    el.classList.remove('exit');
+                } else if (progress > e) {
+                    el.classList.remove('active');
+                    el.classList.add('exit');
+                } else {
+                    el.classList.remove('active');
+                    el.classList.remove('exit');
+                }
             });
-            if(state.progress<1) requestAnimationFrame(loop);
+
+            if (progress < 1) requestAnimationFrame(loop);
             else finishIntro();
         }
+
         function finishIntro() {
-            if(isIntroFinished) return;
-            isIntroFinished=true;
+            if (isIntroFinished) return;
+            isIntroFinished = true;
             document.body.classList.remove('intro-active');
             document.body.classList.add('intro-finished');
             setTimeout(loadSiteData, 500);
         }
 
-        // --- 2. 网站数据逻辑 (核心修改) ---
-        
-       // 修改 loadSiteData 函数，让它去请求 posts.json
+        // =========================================
+        // 数据加载逻辑
+        // =========================================
         function loadSiteData() {
             const container = document.getElementById('posts-container');
             
@@ -329,8 +463,17 @@
                     container.innerHTML = '<p style="text-align:center">加载失败，请检查 posts.json 是否存在。</p>';
                 });
         }
+        
+        // 增加 CSS 动画
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = `
+            @keyframes fadeInUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
 
-        // 交互逻辑
         const themeBtn = document.getElementById('theme-btn');
         themeBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
@@ -339,6 +482,7 @@
 
         window.addEventListener('resize', resize);
         document.getElementById('enter-site-btn').addEventListener('click', finishIntro);
+        
         resize();
         requestAnimationFrame(loop);
 
