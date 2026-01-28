@@ -1,0 +1,420 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="847pt" height="1575pt" viewBox="0.00 0.00 846.93 1575.30">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1571.3)">
+<title>LogisticsPlanner_CodeB</title>
+<polygon fill="#f7f9fc" stroke="none" points="-4,4 -4,-1571.3 842.93,-1571.3 842.93,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_init</title>
+<polygon fill="#eef3f9" stroke="#cbdceb" points="432.68,-1197.5 432.68,-1388.1 552.68,-1388.1 552.68,-1197.5 432.68,-1197.5"/>
+<text text-anchor="middle" x="492.68" y="-1373.3" font-family="Helvetica,Arial,'Microsoft YaHei',sans-serif" font-size="12.00">初始化阶段</text>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_main_loop</title>
+<polygon fill="#ebf2f9" stroke="#b0c4de" stroke-width="1.5" points="263.68,-8 263.68,-1178.5 588.68,-1178.5 588.68,-8 263.68,-8"/>
+<text text-anchor="middle" x="426.18" y="-1163.7" font-family="Helvetica,Arial,'Microsoft YaHei',sans-serif" font-size="12.00">核心算法：原子化路径构建探索 (Nested Loops)</text>
+</g>
+<!-- terminator -->
+<g id="node1" class="node">
+<title>terminator</title>
+<ellipse fill="#cbdceb" stroke="#b0c4de" stroke-width="1.2" cx="42.68" cy="-1538.5" rx="42.68" ry="25.2"/>
+<text text-anchor="middle" x="42.68" y="-1534.3" font-family="Times,serif" font-size="14.00" fill="#4a5a6a">terminator</text>
+</g>
+<!-- io -->
+<g id="node2" class="node">
+<title>io</title>
+<path fill="#d4e3f0" stroke="#b0c4de" stroke-width="1.2" d="M172.67,-1563.7C172.67,-1563.7 152.14,-1563.7 152.14,-1563.7 146.14,-1563.7 138.81,-1557.85 137.48,-1552 137.48,-1552 131.35,-1525 131.35,-1525 130.02,-1519.15 134.69,-1513.3 140.69,-1513.3 140.69,-1513.3 161.22,-1513.3 161.22,-1513.3 167.22,-1513.3 174.55,-1519.15 175.88,-1525 175.88,-1525 182.01,-1552 182.01,-1552 183.34,-1557.85 178.67,-1563.7 172.67,-1563.7"/>
+<text text-anchor="middle" x="156.68" y="-1534.3" font-family="Times,serif" font-size="14.00" fill="#4a5a6a">io</text>
+</g>
+<!-- decision -->
+<g id="node3" class="node">
+<title>decision</title>
+<polygon fill="#c4d7e8" stroke="#b0c4de" stroke-width="1.2" points="276.68,-1567.3 227.59,-1538.5 276.68,-1509.7 325.77,-1538.5 276.68,-1567.3"/>
+<text text-anchor="middle" x="276.68" y="-1534.3" font-family="Times,serif" font-size="14.00" fill="#4a5a6a">decision</text>
+</g>
+<!-- note_box -->
+<g id="node4" class="node">
+<title>note_box</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="416.68,-1567.3 368.68,-1567.3 368.68,-1509.7 422.68,-1509.7 422.68,-1561.3 416.68,-1567.3"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="416.68,-1567.3 416.68,-1561.3"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="422.68,-1561.3 416.68,-1561.3"/>
+<text text-anchor="middle" x="395.68" y="-1535.5" font-family="Times,serif" font-size="10.00" fill="#7f96ab">note_box</text>
+</g>
+<!-- start -->
+<g id="node5" class="node">
+<title>start</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="513.68,-1567.3 465.68,-1567.3 465.68,-1509.7 519.68,-1509.7 519.68,-1561.3 513.68,-1567.3"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="513.68,-1567.3 513.68,-1561.3"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="519.68,-1561.3 513.68,-1561.3"/>
+<text text-anchor="middle" x="492.68" y="-1535.5" font-family="Times,serif" font-size="10.00" fill="#7f96ab">开始</text>
+</g>
+<!-- input_data -->
+<g id="node6" class="node">
+<title>input_data</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="533.42,-1472.7 445.94,-1472.7 445.94,-1415.1 539.42,-1415.1 539.42,-1466.7 533.42,-1472.7"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="533.42,-1472.7 533.42,-1466.7"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="539.42,-1466.7 533.42,-1466.7"/>
+<text text-anchor="middle" x="492.68" y="-1452.9" font-family="Times,serif" font-size="10.00" fill="#7f96ab">输入:</text>
+<text text-anchor="middle" x="492.68" y="-1440.9" font-family="Times,serif" font-size="10.00" fill="#7f96ab">起始地, 目的地</text>
+<text text-anchor="middle" x="492.68" y="-1428.9" font-family="Times,serif" font-size="10.00" fill="#7f96ab">查询时段 (Start-End)</text>
+</g>
+<!-- start&#45;&gt;input_data -->
+<g id="edge3" class="edge">
+<title>start-&gt;input_data</title>
+<path fill="none" stroke="#879eb5" d="M492.68,-1509.35C492.68,-1509.35 492.68,-1482.64 492.68,-1482.64"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="495.48,-1482.64 492.68,-1474.64 489.88,-1482.64 495.48,-1482.64"/>
+</g>
+<!-- load_data -->
+<g id="node7" class="node">
+<title>load_data</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="538.43,-1357.7 440.93,-1357.7 440.93,-1300.1 544.43,-1300.1 544.43,-1351.7 538.43,-1357.7"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="538.43,-1357.7 538.43,-1351.7"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="544.43,-1351.7 538.43,-1351.7"/>
+<text text-anchor="middle" x="492.68" y="-1331.9" font-family="Times,serif" font-size="10.00" fill="#7f96ab">加载原子成本表 (Cost表)</text>
+<text text-anchor="middle" x="492.68" y="-1319.9" font-family="Times,serif" font-size="10.00" fill="#7f96ab">(忽略 Summary表)</text>
+</g>
+<!-- input_data&#45;&gt;load_data -->
+<g id="edge4" class="edge">
+<title>input_data-&gt;load_data</title>
+<path fill="none" stroke="#879eb5" d="M492.68,-1414.88C492.68,-1414.88 492.68,-1367.43 492.68,-1367.43"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="495.48,-1367.43 492.68,-1359.43 489.88,-1367.43 495.48,-1367.43"/>
+</g>
+<!-- preprocess -->
+<g id="node8" class="node">
+<title>preprocess</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="524.68,-1263.1 454.68,-1263.1 454.68,-1205.5 530.68,-1205.5 530.68,-1257.1 524.68,-1263.1"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="524.68,-1263.1 524.68,-1257.1"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="530.68,-1257.1 524.68,-1257.1"/>
+<text text-anchor="middle" x="492.68" y="-1243.3" font-family="Times,serif" font-size="10.00" fill="#7f96ab">数据预处理:</text>
+<text text-anchor="middle" x="492.68" y="-1231.3" font-family="Times,serif" font-size="10.00" fill="#7f96ab">价格转浮点数</text>
+<text text-anchor="middle" x="492.68" y="-1219.3" font-family="Times,serif" font-size="10.00" fill="#7f96ab">填充空缺日期范围</text>
+</g>
+<!-- load_data&#45;&gt;preprocess -->
+<g id="edge1" class="edge">
+<title>load_data-&gt;preprocess</title>
+<path fill="none" stroke="#879eb5" d="M492.68,-1299.75C492.68,-1299.75 492.68,-1273.04 492.68,-1273.04"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="495.48,-1273.04 492.68,-1265.04 489.88,-1273.04 495.48,-1273.04"/>
+</g>
+<!-- loop_start_pol -->
+<g id="node9" class="node">
+<title>loop_start_pol</title>
+<polygon fill="#dce5f0" stroke="#b0c4de" stroke-width="1.2" points="571.51,-1112.18 532.1,-1148.1 453.26,-1148.1 413.85,-1112.18 453.26,-1076.25 532.1,-1076.25 571.51,-1112.18"/>
+<text text-anchor="middle" x="492.68" y="-1121.18" font-family="Times,serif" font-size="10.00" fill="#7f96ab">循环 L1:</text>
+<text text-anchor="middle" x="492.68" y="-1109.18" font-family="Times,serif" font-size="10.00" fill="#7f96ab">搜索潜在起运港 (POL)</text>
+<text text-anchor="middle" x="492.68" y="-1097.18" font-family="Times,serif" font-size="10.00" fill="#7f96ab">(起始地 -&gt; ???, 汽运)</text>
+</g>
+<!-- preprocess&#45;&gt;loop_start_pol -->
+<g id="edge5" class="edge">
+<title>preprocess-&gt;loop_start_pol</title>
+<path fill="none" stroke="#879eb5" d="M492.68,-1205.05C492.68,-1205.05 492.68,-1157.69 492.68,-1157.69"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="495.48,-1157.69 492.68,-1149.69 489.88,-1157.69 495.48,-1157.69"/>
+</g>
+<!-- calc_truck1 -->
+<g id="node10" class="node">
+<title>calc_truck1</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="452.57,-1016.25 354.79,-1016.25 354.79,-958.65 458.57,-958.65 458.57,-1010.25 452.57,-1016.25"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="452.57,-1016.25 452.57,-1010.25"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="458.57,-1010.25 452.57,-1010.25"/>
+<text text-anchor="middle" x="406.68" y="-996.45" font-family="Times,serif" font-size="10.00" fill="#7f96ab">计费层 A (前段):</text>
+<text text-anchor="middle" x="406.68" y="-984.45" font-family="Times,serif" font-size="10.00" fill="#7f96ab">计算 Start→POL 汽运费</text>
+<text text-anchor="middle" x="406.68" y="-972.45" font-family="Times,serif" font-size="10.00" fill="#7f96ab">&amp; 起运港杂费</text>
+</g>
+<!-- loop_start_pol&#45;&gt;calc_truck1 -->
+<g id="edge6" class="edge">
+<title>loop_start_pol-&gt;calc_truck1</title>
+<path fill="none" stroke="#879eb5" d="M436.21,-1091.3C436.21,-1091.3 436.21,-1025.86 436.21,-1025.86"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="439.01,-1025.86 436.21,-1017.86 433.41,-1025.86 439.01,-1025.86"/>
+</g>
+<!-- sort_results -->
+<g id="node23" class="node">
+<title>sort_results</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="718.93,-1016.25 626.43,-1016.25 626.43,-958.65 724.93,-958.65 724.93,-1010.25 718.93,-1016.25"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="718.93,-1016.25 718.93,-1010.25"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="724.93,-1010.25 718.93,-1010.25"/>
+<text text-anchor="middle" x="675.68" y="-990.45" font-family="Times,serif" font-size="10.00" fill="#7f96ab">结果处理:</text>
+<text text-anchor="middle" x="675.68" y="-978.45" font-family="Times,serif" font-size="10.00" fill="#7f96ab">按总价升序排列所有方案</text>
+</g>
+<!-- loop_start_pol&#45;&gt;sort_results -->
+<g id="edge24" class="edge">
+<title>loop_start_pol-&gt;sort_results</title>
+<path fill="none" stroke="#879eb5" d="M562.01,-1103.21C562.01,-1074.61 562.01,-987.45 562.01,-987.45 562.01,-987.45 616.64,-987.45 616.64,-987.45"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="616.64,-990.25 624.64,-987.45 616.64,-984.65 616.64,-990.25"/>
+<text text-anchor="middle" x="625.68" y="-1049.25" font-family="Helvetica,Arial,sans-serif" font-size="10.00" fill="#4a6a8a">所有组合</text>
+<text text-anchor="middle" x="625.68" y="-1037.25" font-family="Helvetica,Arial,sans-serif" font-size="10.00" fill="#4a6a8a">遍历完毕</text>
+</g>
+<!-- pricing_note -->
+<g id="node11" class="node">
+<title>pricing_note</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="371.68,-910.65 271.68,-910.65 271.68,-853.05 377.68,-853.05 377.68,-904.65 371.68,-910.65"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="371.68,-910.65 371.68,-904.65"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="377.68,-904.65 371.68,-904.65"/>
+<text text-anchor="middle" x="324.68" y="-890.85" font-family="Times,serif" font-size="10.00" fill="#7f96ab">【风控策略】</text>
+<text text-anchor="middle" x="324.68" y="-878.85" font-family="Times,serif" font-size="10.00" fill="#7f96ab">跨期查询时，取时段内</text>
+<text text-anchor="middle" x="324.68" y="-866.85" font-family="Times,serif" font-size="10.00" fill="#7f96ab">最高价格(MAX)作为报价</text>
+</g>
+<!-- calc_truck1&#45;&gt;pricing_note -->
+<g id="edge2" class="edge">
+<title>calc_truck1-&gt;pricing_note</title>
+<path fill="none" stroke="#879eb5" stroke-dasharray="5,2" d="M366.23,-958.32C366.23,-943.54 366.23,-925.65 366.23,-910.89"/>
+</g>
+<!-- check_truck1 -->
+<g id="node12" class="node">
+<title>check_truck1</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="484.8,-910.65 420.56,-910.65 420.56,-853.05 490.8,-853.05 490.8,-904.65 484.8,-910.65"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="484.8,-910.65 484.8,-904.65"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="490.8,-904.65 484.8,-904.65"/>
+<text text-anchor="middle" x="455.68" y="-884.85" font-family="Times,serif" font-size="10.00" fill="#7f96ab">前段费用</text>
+<text text-anchor="middle" x="455.68" y="-872.85" font-family="Times,serif" font-size="10.00" fill="#7f96ab">是否有效 (&gt;0)?</text>
+</g>
+<!-- calc_truck1&#45;&gt;check_truck1 -->
+<g id="edge7" class="edge">
+<title>calc_truck1-&gt;check_truck1</title>
+<path fill="none" stroke="#879eb5" d="M439.56,-958.32C439.56,-958.32 439.56,-920.41 439.56,-920.41"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="442.36,-920.41 439.56,-912.41 436.76,-920.41 442.36,-920.41"/>
+</g>
+<!-- skip_pol -->
+<g id="node13" class="node">
+<title>skip_pol</title>
+<polygon fill="none" stroke="#b0c4de" stroke-width="1.2" stroke-dasharray="5,2" points="330.13,-797.93 271.23,-797.93 271.23,-740.33 336.13,-740.33 336.13,-791.93 330.13,-797.93"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" stroke-dasharray="5,2" points="330.13,-797.93 330.13,-791.93"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" stroke-dasharray="5,2" points="336.13,-791.93 330.13,-791.93"/>
+<text text-anchor="middle" x="303.68" y="-772.13" font-family="Times,serif" font-size="10.00" fill="#999999">丢弃当前POL</text>
+<text text-anchor="middle" x="303.68" y="-760.13" font-family="Times,serif" font-size="10.00" fill="#999999">(跳过)</text>
+</g>
+<!-- check_truck1&#45;&gt;skip_pol -->
+<g id="edge8" class="edge">
+<title>check_truck1-&gt;skip_pol</title>
+<path fill="none" stroke="#879eb5" d="M443.97,-852.72C443.97,-844.16 443.97,-837.05 443.97,-837.05 443.97,-837.05 293.16,-837.05 293.16,-837.05 293.16,-837.05 293.16,-807.84 293.16,-807.84"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="295.96,-807.84 293.16,-799.84 290.36,-807.84 295.96,-807.84"/>
+<text text-anchor="middle" x="366.26" y="-826.05" font-family="Helvetica,Arial,sans-serif" font-size="10.00" fill="#6d8297">否(无效)</text>
+</g>
+<!-- loop_start_pod -->
+<g id="node14" class="node">
+<title>loop_start_pod</title>
+<polygon fill="#dce5f0" stroke="#b0c4de" stroke-width="1.2" points="552.5,-769.13 509.09,-805.05 422.27,-805.05 378.86,-769.13 422.27,-733.2 509.09,-733.2 552.5,-769.13"/>
+<text text-anchor="middle" x="465.68" y="-778.13" font-family="Times,serif" font-size="10.00" fill="#7f96ab">循环 L2:</text>
+<text text-anchor="middle" x="465.68" y="-766.13" font-family="Times,serif" font-size="10.00" fill="#7f96ab">搜索潜在目的港 (POD)</text>
+<text text-anchor="middle" x="465.68" y="-754.13" font-family="Times,serif" font-size="10.00" fill="#7f96ab">(当前 POL -&gt; ???, 水运)</text>
+</g>
+<!-- check_truck1&#45;&gt;loop_start_pod -->
+<g id="edge10" class="edge">
+<title>check_truck1-&gt;loop_start_pod</title>
+<path fill="none" stroke="#879eb5" d="M467.39,-852.82C467.39,-852.82 467.39,-814.84 467.39,-814.84"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="470.19,-814.84 467.39,-806.84 464.59,-814.84 470.19,-814.84"/>
+<text text-anchor="middle" x="475.26" y="-826.05" font-family="Helvetica,Arial,sans-serif" font-size="10.00" fill="#6d8297">是(有效)</text>
+</g>
+<!-- skip_pol&#45;&gt;loop_start_pol -->
+<g id="edge9" class="edge">
+<title>skip_pol-&gt;loop_start_pol</title>
+<path fill="none" stroke="#879eb5" stroke-dasharray="5,2" d="M314.64,-798.13C314.64,-810.02 314.64,-821.05 314.64,-821.05 314.64,-821.05 511.37,-821.05 511.37,-821.05 511.37,-821.05 511.37,-1066.38 511.37,-1066.38"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="508.57,-1066.38 511.37,-1074.38 514.17,-1066.38 508.57,-1066.38"/>
+<text text-anchor="middle" x="472.63" y="-931.65" font-family="Helvetica,Arial,sans-serif" font-size="10.00" fill="#6d8297">下个POL</text>
+</g>
+<!-- loop_start_pod&#45;&gt;loop_start_pol -->
+<g id="edge23" class="edge">
+<title>loop_start_pod-&gt;loop_start_pol</title>
+<path fill="none" stroke="#879eb5" stroke-dasharray="5,2" d="M531.94,-786.61C531.94,-786.61 531.94,-1066.5 531.94,-1066.5"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="529.14,-1066.5 531.94,-1074.5 534.74,-1066.5 529.14,-1066.5"/>
+<text text-anchor="middle" x="558.93" y="-931.65" font-family="Helvetica,Arial,sans-serif" font-size="10.00" fill="#6d8297">POD遍历完</text>
+</g>
+<!-- calc_water -->
+<g id="node15" class="node">
+<title>calc_water</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="451.13,-696.2 352.23,-696.2 352.23,-638.6 457.13,-638.6 457.13,-690.2 451.13,-696.2"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="451.13,-696.2 451.13,-690.2"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="457.13,-690.2 451.13,-690.2"/>
+<text text-anchor="middle" x="404.68" y="-676.4" font-family="Times,serif" font-size="10.00" fill="#7f96ab">计费层 B (中段):</text>
+<text text-anchor="middle" x="404.68" y="-664.4" font-family="Times,serif" font-size="10.00" fill="#7f96ab">计算 POL→POD 水运费</text>
+<text text-anchor="middle" x="404.68" y="-652.4" font-family="Times,serif" font-size="10.00" fill="#7f96ab">(识别海船/驳船/过驳点)</text>
+</g>
+<!-- loop_start_pod&#45;&gt;calc_water -->
+<g id="edge11" class="edge">
+<title>loop_start_pod-&gt;calc_water</title>
+<path fill="none" stroke="#879eb5" d="M417.99,-736.1C417.99,-736.1 417.99,-706.01 417.99,-706.01"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="420.79,-706.01 417.99,-698.01 415.19,-706.01 420.79,-706.01"/>
+</g>
+<!-- check_water -->
+<g id="node16" class="node">
+<title>check_water</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="427.8,-601.6 363.56,-601.6 363.56,-544 433.8,-544 433.8,-595.6 427.8,-601.6"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="427.8,-601.6 427.8,-595.6"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="433.8,-595.6 427.8,-595.6"/>
+<text text-anchor="middle" x="398.68" y="-575.8" font-family="Times,serif" font-size="10.00" fill="#7f96ab">水运费用</text>
+<text text-anchor="middle" x="398.68" y="-563.8" font-family="Times,serif" font-size="10.00" fill="#7f96ab">是否有效 (&gt;0)?</text>
+</g>
+<!-- calc_water&#45;&gt;check_water -->
+<g id="edge12" class="edge">
+<title>calc_water-&gt;check_water</title>
+<path fill="none" stroke="#879eb5" d="M398.68,-638.24C398.68,-638.24 398.68,-611.54 398.68,-611.54"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="401.48,-611.54 398.68,-603.54 395.88,-611.54 401.48,-611.54"/>
+</g>
+<!-- skip_pod -->
+<g id="node17" class="node">
+<title>skip_pod</title>
+<polygon fill="none" stroke="#b0c4de" stroke-width="1.2" stroke-dasharray="5,2" points="360.68,-73.6 300.68,-73.6 300.68,-16 366.68,-16 366.68,-67.6 360.68,-73.6"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" stroke-dasharray="5,2" points="360.68,-73.6 360.68,-67.6"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" stroke-dasharray="5,2" points="366.68,-67.6 360.68,-67.6"/>
+<text text-anchor="middle" x="333.68" y="-47.8" font-family="Times,serif" font-size="10.00" fill="#999999">丢弃当前POD</text>
+<text text-anchor="middle" x="333.68" y="-35.8" font-family="Times,serif" font-size="10.00" fill="#999999">(跳过)</text>
+</g>
+<!-- check_water&#45;&gt;skip_pod -->
+<g id="edge13" class="edge">
+<title>check_water-&gt;skip_pod</title>
+<path fill="none" stroke="#879eb5" d="M363.11,-572.8C351.48,-572.8 341.49,-572.8 341.49,-572.8 341.49,-572.8 341.49,-83.45 341.49,-83.45"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="344.29,-83.45 341.49,-75.45 338.69,-83.45 344.29,-83.45"/>
+<text text-anchor="middle" x="329.26" y="-305.8" font-family="Helvetica,Arial,sans-serif" font-size="10.00" fill="#6d8297">否(无效)</text>
+</g>
+<!-- calc_pod_fee -->
+<g id="node18" class="node">
+<title>calc_pod_fee</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="426.93,-496 364.43,-496 364.43,-438.4 432.93,-438.4 432.93,-490 426.93,-496"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="426.93,-496 426.93,-490"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="432.93,-490 426.93,-490"/>
+<text text-anchor="middle" x="398.68" y="-464.2" font-family="Times,serif" font-size="10.00" fill="#7f96ab">计算目的港杂费</text>
+</g>
+<!-- check_water&#45;&gt;calc_pod_fee -->
+<g id="edge15" class="edge">
+<title>check_water-&gt;calc_pod_fee</title>
+<path fill="none" stroke="#879eb5" d="M398.68,-543.66C398.68,-543.66 398.68,-505.75 398.68,-505.75"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="401.48,-505.75 398.68,-497.75 395.88,-505.75 401.48,-505.75"/>
+<text text-anchor="middle" x="413.26" y="-517" font-family="Helvetica,Arial,sans-serif" font-size="10.00" fill="#6d8297">是(有效)</text>
+</g>
+<!-- skip_pod&#45;&gt;loop_start_pod -->
+<g id="edge14" class="edge">
+<title>skip_pod-&gt;loop_start_pod</title>
+<path fill="none" stroke="#879eb5" stroke-dasharray="5,2" d="M338.81,-74.09C338.81,-205.8 338.81,-736.76 338.81,-736.76 338.81,-736.76 407.84,-736.76 407.84,-736.76"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="407.84,-739.56 415.84,-736.76 407.84,-733.96 407.84,-739.56"/>
+<text text-anchor="middle" x="476.18" y="-411.4" font-family="Helvetica,Arial,sans-serif" font-size="10.00" fill="#6d8297">下个POD</text>
+</g>
+<!-- check_is_end -->
+<g id="node19" class="node">
+<title>check_is_end</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="419.68,-390.4 371.68,-390.4 371.68,-332.8 425.68,-332.8 425.68,-384.4 419.68,-390.4"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="419.68,-390.4 419.68,-384.4"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="425.68,-384.4 419.68,-384.4"/>
+<text text-anchor="middle" x="398.68" y="-364.6" font-family="Times,serif" font-size="10.00" fill="#7f96ab">当前POD</text>
+<text text-anchor="middle" x="398.68" y="-352.6" font-family="Times,serif" font-size="10.00" fill="#7f96ab">即为终点?</text>
+</g>
+<!-- calc_pod_fee&#45;&gt;check_is_end -->
+<g id="edge16" class="edge">
+<title>calc_pod_fee-&gt;check_is_end</title>
+<path fill="none" stroke="#879eb5" d="M398.68,-438.06C398.68,-438.06 398.68,-400.15 398.68,-400.15"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="401.48,-400.15 398.68,-392.15 395.88,-400.15 401.48,-400.15"/>
+</g>
+<!-- calc_truck2 -->
+<g id="node20" class="node">
+<title>calc_truck2</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="439.18,-284.8 344.18,-284.8 344.18,-227.2 445.18,-227.2 445.18,-278.8 439.18,-284.8"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="439.18,-284.8 439.18,-278.8"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="445.18,-278.8 439.18,-278.8"/>
+<text text-anchor="middle" x="394.68" y="-259" font-family="Times,serif" font-size="10.00" fill="#7f96ab">计费层 C (后段):</text>
+<text text-anchor="middle" x="394.68" y="-247" font-family="Times,serif" font-size="10.00" fill="#7f96ab">计算 POD→终点 汽运费</text>
+</g>
+<!-- check_is_end&#45;&gt;calc_truck2 -->
+<g id="edge17" class="edge">
+<title>check_is_end-&gt;calc_truck2</title>
+<path fill="none" stroke="#879eb5" d="M398.68,-332.46C398.68,-332.46 398.68,-294.55 398.68,-294.55"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="401.48,-294.55 398.68,-286.55 395.88,-294.55 401.48,-294.55"/>
+<text text-anchor="middle" x="423.51" y="-305.8" font-family="Helvetica,Arial,sans-serif" font-size="10.00" fill="#6d8297">否(需后段汽运)</text>
+</g>
+<!-- aggregate -->
+<g id="node22" class="node">
+<title>aggregate</title>
+<path fill="#cde0f2" stroke="#b0c4de" stroke-width="1.5" d="M503.18,-73.6C503.18,-73.6 436.18,-73.6 436.18,-73.6 430.18,-73.6 424.18,-67.6 424.18,-61.6 424.18,-61.6 424.18,-28 424.18,-28 424.18,-22 430.18,-16 436.18,-16 436.18,-16 503.18,-16 503.18,-16 509.18,-16 515.18,-22 515.18,-28 515.18,-28 515.18,-61.6 515.18,-61.6 515.18,-67.6 509.18,-73.6 503.18,-73.6"/>
+<text text-anchor="middle" x="469.68" y="-53.8" font-family="Times,serif" font-size="10.00" fill="#7f96ab">路径构建成功:</text>
+<text text-anchor="middle" x="469.68" y="-41.8" font-family="Times,serif" font-size="10.00" fill="#7f96ab">汇总全链路成本与描述</text>
+<text text-anchor="middle" x="469.68" y="-29.8" font-family="Times,serif" font-size="10.00" fill="#7f96ab">存入候选列表</text>
+</g>
+<!-- check_is_end&#45;&gt;aggregate -->
+<g id="edge21" class="edge">
+<title>check_is_end-&gt;aggregate</title>
+<path fill="none" stroke="#879eb5" d="M426.15,-361.6C438.84,-361.6 451.16,-361.6 451.16,-361.6 451.16,-361.6 451.16,-83.55 451.16,-83.55"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="453.96,-83.55 451.16,-75.55 448.36,-83.55 453.96,-83.55"/>
+<text text-anchor="middle" x="511.76" y="-200.2" font-family="Helvetica,Arial,sans-serif" font-size="10.00" fill="#4a6a8a">是(直达终点)</text>
+</g>
+<!-- check_truck2 -->
+<g id="node21" class="node">
+<title>check_truck2</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="423.8,-179.2 359.56,-179.2 359.56,-121.6 429.8,-121.6 429.8,-173.2 423.8,-179.2"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="423.8,-179.2 423.8,-173.2"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="429.8,-173.2 423.8,-173.2"/>
+<text text-anchor="middle" x="394.68" y="-153.4" font-family="Times,serif" font-size="10.00" fill="#7f96ab">后段费用</text>
+<text text-anchor="middle" x="394.68" y="-141.4" font-family="Times,serif" font-size="10.00" fill="#7f96ab">是否有效 (&gt;0)?</text>
+</g>
+<!-- calc_truck2&#45;&gt;check_truck2 -->
+<g id="edge18" class="edge">
+<title>calc_truck2-&gt;check_truck2</title>
+<path fill="none" stroke="#879eb5" d="M394.68,-226.86C394.68,-226.86 394.68,-188.95 394.68,-188.95"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="397.48,-188.95 394.68,-180.95 391.88,-188.95 397.48,-188.95"/>
+</g>
+<!-- check_truck2&#45;&gt;skip_pod -->
+<g id="edge19" class="edge">
+<title>check_truck2-&gt;skip_pod</title>
+<path fill="none" stroke="#879eb5" stroke-dasharray="5,2" d="M363.12,-121.26C363.12,-121.26 363.12,-83.35 363.12,-83.35"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="365.92,-83.35 363.12,-75.35 360.32,-83.35 365.92,-83.35"/>
+<text text-anchor="middle" x="378.26" y="-94.6" font-family="Helvetica,Arial,sans-serif" font-size="10.00" fill="#6d8297">否(无法抵达终点)</text>
+</g>
+<!-- check_truck2&#45;&gt;aggregate -->
+<g id="edge20" class="edge">
+<title>check_truck2-&gt;aggregate</title>
+<path fill="none" stroke="#879eb5" d="M430.03,-150.4C434.47,-150.4 437.49,-150.4 437.49,-150.4 437.49,-150.4 437.49,-83.45 437.49,-83.45"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="440.29,-83.45 437.49,-75.45 434.69,-83.45 440.29,-83.45"/>
+<text text-anchor="middle" x="470.26" y="-94.6" font-family="Helvetica,Arial,sans-serif" font-size="10.00" fill="#6d8297">是(有效)</text>
+</g>
+<!-- aggregate&#45;&gt;loop_start_pod -->
+<g id="edge22" class="edge">
+<title>aggregate-&gt;loop_start_pod</title>
+<path fill="none" stroke="#879eb5" stroke-dasharray="5,2" d="M486.15,-74.09C486.15,-74.09 486.15,-723.26 486.15,-723.26"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="483.35,-723.26 486.15,-731.26 488.95,-723.26 483.35,-723.26"/>
+</g>
+<!-- output_final -->
+<g id="node24" class="node">
+<title>output_final</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="721.57,-910.65 623.79,-910.65 623.79,-853.05 727.57,-853.05 727.57,-904.65 721.57,-910.65"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="721.57,-910.65 721.57,-904.65"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="727.57,-904.65 721.57,-904.65"/>
+<text text-anchor="middle" x="675.68" y="-884.85" font-family="Times,serif" font-size="10.00" fill="#7f96ab">输出:</text>
+<text text-anchor="middle" x="675.68" y="-872.85" font-family="Times,serif" font-size="10.00" fill="#7f96ab">最优推荐方案 &amp; 详细清单</text>
+</g>
+<!-- sort_results&#45;&gt;output_final -->
+<g id="edge25" class="edge">
+<title>sort_results-&gt;output_final</title>
+<path fill="none" stroke="#879eb5" d="M675.68,-958.32C675.68,-958.32 675.68,-920.41 675.68,-920.41"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="678.48,-920.41 675.68,-912.41 672.88,-920.41 678.48,-920.41"/>
+</g>
+<!-- no_routes -->
+<g id="node26" class="node">
+<title>no_routes</title>
+<polygon fill="#e8d0d0" stroke="#b0c4de" stroke-width="1.2" points="832.93,-910.65 770.43,-910.65 770.43,-853.05 838.93,-853.05 838.93,-904.65 832.93,-910.65"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="832.93,-910.65 832.93,-904.65"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="838.93,-904.65 832.93,-904.65"/>
+<text text-anchor="middle" x="804.68" y="-884.85" font-family="Times,serif" font-size="10.00" fill="#7f96ab">错误提示:</text>
+<text text-anchor="middle" x="804.68" y="-872.85" font-family="Times,serif" font-size="10.00" fill="#7f96ab">未找到可行路径</text>
+</g>
+<!-- sort_results&#45;&gt;no_routes -->
+<g id="edge27" class="edge">
+<title>sort_results-&gt;no_routes</title>
+<path fill="none" stroke="#879eb5" d="M725.19,-987.45C761.56,-987.45 804.68,-987.45 804.68,-987.45 804.68,-987.45 804.68,-920.5 804.68,-920.5"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="807.48,-920.5 804.68,-912.5 801.88,-920.5 807.48,-920.5"/>
+<text text-anchor="middle" x="797.18" y="-931.65" font-family="Helvetica,Arial,sans-serif" font-size="10.00" fill="#6d8297">候选列表为空</text>
+</g>
+<!-- end -->
+<g id="node25" class="node">
+<title>end</title>
+<polygon fill="#f0f4f8" stroke="#b0c4de" stroke-width="1.2" points="740.68,-797.93 692.68,-797.93 692.68,-740.33 746.68,-740.33 746.68,-791.93 740.68,-797.93"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="740.68,-797.93 740.68,-791.93"/>
+<polyline fill="none" stroke="#b0c4de" stroke-width="1.2" points="746.68,-791.93 740.68,-791.93"/>
+<text text-anchor="middle" x="719.68" y="-766.13" font-family="Times,serif" font-size="10.00" fill="#7f96ab">结束</text>
+</g>
+<!-- output_final&#45;&gt;end -->
+<g id="edge26" class="edge">
+<title>output_final-&gt;end</title>
+<path fill="none" stroke="#879eb5" d="M710.12,-852.82C710.12,-852.82 710.12,-807.57 710.12,-807.57"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="712.92,-807.57 710.12,-799.57 707.32,-807.57 712.92,-807.57"/>
+</g>
+<!-- no_routes&#45;&gt;end -->
+<g id="edge28" class="edge">
+<title>no_routes-&gt;end</title>
+<path fill="none" stroke="#879eb5" d="M770.11,-881.85C753.49,-881.85 737.12,-881.85 737.12,-881.85 737.12,-881.85 737.12,-807.67 737.12,-807.67"/>
+<polygon fill="#879eb5" stroke="#879eb5" points="739.92,-807.67 737.12,-799.67 734.32,-807.67 739.92,-807.67"/>
+</g>
+</g>
+</svg>
