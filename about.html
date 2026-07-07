@@ -7,7 +7,7 @@
     <title>About | 端木子宸</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
         /* 针对 About 页面的微调 */
@@ -19,13 +19,14 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ccc, #666);
+            background: var(--surface-2);
+            border: 1px solid var(--border);
             margin: 0 auto 1.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: var(--shadow-sm);
         }
         .bio-text {
             font-size: 1.1rem;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             max-width: 700px;
             margin: 0 auto;
             line-height: 1.8;
@@ -34,18 +35,14 @@
 </head>
 
 <body>
-    <div class="background-glow"></div>
-
     <nav class="navbar">
         <div class="container nav-content">
-            <a href="index.html" class="logo">
-                <span class="logo-dot"></span>
-                MySpace
-            </a>
+            <a href="index.html" class="logo">端木子宸</a>
             <ul class="nav-links">
                 <li><a href="index.html">首页</a></li>
+                <li><a href="index.html#posts-section">随笔</a></li>
                 <li><a href="about.html" class="active">关于</a></li>
-                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+                <li><button id="theme-toggle" class="theme-btn" title="切换主题">🌙</button></li>
             </ul>
         </div>
     </nav>
@@ -94,10 +91,10 @@
                 <li><strong>Code Space</strong>: <a href="https://github.com/liduanchen" target="_blank">github.com/liduanchen</a></li>
             </ul>
 
-            <hr style="margin: 4rem 0; border-color: var(--border-color);">
+            <hr>
 
             <h3>关于本站架构</h3>
-            <p style="font-size: 0.9rem; color: var(--text-secondary);">
+            <p style="font-size: 0.9rem; color: var(--text-muted);">
                 本站遵循 <a href="#">Jamstack</a> 架构理念构建。采用原生 JavaScript 进行动态渲染，
                 配合 <a href="https://marked.js.org/">Marked.js</a> 实现高效的 Markdown 解析，
                 视觉系统基于 CSS Variables 实现动态主题切换，旨在提供纯粹、无干扰的阅读体验。
@@ -109,7 +106,7 @@
 
     <footer class="footer">
         <div class="container footer-content">
-            <p>&copy; 2026 端木子宸. Designed & Engineered with Passion.</p>
+            <p>&copy; 2026 端木子宸</p>
         </div>
     </footer>
 

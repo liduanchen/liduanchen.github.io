@@ -3,77 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文章阅读 | MySpace</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>文章阅读 | 端木子宸</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
     <!-- 代码高亮样式 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-    <!-- 引入 Marked.js 用于解析 Markdown -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    
-    <style>
-        :root {
-            --bg-color: #f5f5f7;
-            --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
-            --accent-color: #0071e3;
-            --nav-bg: rgba(255, 255, 255, 0.7);
-        }
-        body.dark-mode {
-            --bg-color: #000000;
-            --text-primary: #f5f5f7;
-            --text-secondary: #a1a1a6;
-            --nav-bg: rgba(28, 28, 30, 0.7);
-        }
-        * { box-sizing: border-box; }
-        body { margin:0; font-family: "Inter", "Noto Sans SC", sans-serif; background: var(--bg-color); color: var(--text-primary); transition: 0.3s; line-height: 1.6; }
-        
-        .navbar { position: sticky; top:0; background: var(--nav-bg); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.1); padding: 15px 0; z-index: 10; }
-        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
-        .nav-content { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: 800; font-size: 1.2rem; color: var(--text-primary); text-decoration: none; }
-        
-        .article-container { padding-top: 60px; padding-bottom: 100px; min-height: 80vh; }
-        .article-breadcrumb { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; }
-        .article-breadcrumb a { color: var(--text-secondary); text-decoration: none; }
-        .article-breadcrumb a:hover { color: var(--accent-color); }
-        
-        .article-header { margin-bottom: 40px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 30px; }
-        .article-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 15px; line-height: 1.2; letter-spacing: -0.5px; }
-        .article-meta { color: var(--text-secondary); font-size: 0.9rem; }
-        
-        /* Markdown 内容样式 */
-        .markdown-body h2 { font-size: 1.8rem; margin-top: 2rem; margin-bottom: 1rem; font-weight: 700; letter-spacing: -0.5px; }
-        .markdown-body h3 { font-size: 1.4rem; margin-top: 1.5rem; margin-bottom: 0.8rem; font-weight: 600; }
-        .markdown-body p { margin-bottom: 1.5rem; font-size: 1.05rem; color: var(--text-primary); }
-        .markdown-body ul, .markdown-body ol { margin-bottom: 1.5rem; padding-left: 20px; }
-        .markdown-body li { margin-bottom: 0.5rem; }
-        .markdown-body pre { background: #282c34; border-radius: 12px; padding: 20px; overflow-x: auto; margin: 20px 0; }
-        .markdown-body code { font-family: 'Menlo', 'Monaco', monospace; font-size: 0.9em; }
-        .markdown-body blockquote { border-left: 4px solid var(--accent-color); margin: 0; padding-left: 20px; color: var(--text-secondary); font-style: italic; }
-        
-        .footer { text-align: center; font-size: 0.8rem; color: var(--text-secondary); padding: 40px 0; border-top: 1px solid rgba(0,0,0,0.1); }
-    </style>
 </head>
 <body class="page-article">
 
     <nav class="navbar">
         <div class="container nav-content">
-            <a href="index.html" class="logo">MySpace</a>
-            <div>
-                <a href="index.html" style="color:var(--text-primary); text-decoration:none; font-size:0.9rem;">返回首页</a>
-            </div>
+            <a href="index.html" class="logo">端木子宸</a>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="index.html#posts-section">随笔</a></li>
+                <li><a href="about.html">关于</a></li>
+                <li><button class="theme-btn" id="theme-toggle" title="切换主题">🌙</button></li>
+            </ul>
         </div>
     </nav>
 
     <main class="container article-container">
         <!-- 动态渲染区域 -->
         <div id="loading" style="text-align: center; padding: 50px;">正在加载文章...</div>
-        
+
         <div id="article-content" style="display: none;">
             <div class="article-breadcrumb">
                 <a href="index.html">首页</a> / <span id="art-category">...</span>
             </div>
-            
+
             <header class="article-header">
                 <h1 class="article-title" id="art-title">文章标题</h1>
                 <div class="article-meta" id="art-meta">
@@ -89,13 +49,13 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 MySpace. Designed for Thinking.</p>
+            <p>&copy; 2026 端木子宸</p>
         </div>
     </footer>
 
-<!-- 确保在 head 或 body 中引入了这两个库 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="js/script.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -113,19 +73,19 @@
                 .then(res => res.json())
                 .then(posts => {
                     const post = posts.find(p => p.id === postId);
-                    
+
                     if (post) {
                         // 渲染标题和元数据
                         document.getElementById('art-category').innerText = post.category;
                         document.getElementById('art-title').innerText = post.title;
                         document.getElementById('art-meta').innerText = `发布于 ${post.date}`;
-                        document.title = `${post.title} | MySpace`;
+                        document.title = `${post.title} | 端木子宸`;
 
                         // 3. 关键：根据 filename 加载真正的 Markdown 文件（统一从 posts/ 目录取）
                         const encodedPath = 'posts/' + encodeURIComponent(post.filename);
                         const rawPath = 'posts/' + post.filename;
                         // 优先尝试编码后的路径，失败则回退原始路径，避免中文/空格路径在某些本地服务器下 404
-                        return fetch(encodedPath).then(r => r.ok ? r : fetch(rawPath)); 
+                        return fetch(encodedPath).then(r => r.ok ? r : fetch(rawPath));
                     } else {
                         throw new Error('Post not found in JSON');
                     }
@@ -137,11 +97,11 @@
                 .then(markdown => {
                     // 4. 将 Markdown 转换为 HTML
                     document.getElementById('art-body').innerHTML = marked.parse(markdown);
-                    
+
                     // 显示内容区域，隐藏加载提示
                     document.getElementById('loading').style.display = 'none';
                     document.getElementById('article-content').style.display = 'block';
-                    
+
                     // 代码高亮
                     hljs.highlightAll();
                 })

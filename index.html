@@ -4,216 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>端木子宸 | 灵感之源</title>
-    <!-- 引入高级字体库 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        /* =========================================
-           1. DESIGN SYSTEM
-           ========================================= */
-        :root {
-            --bg-color: #f5f5f7;
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
-            --accent-color: #0071e3;
-            --nav-bg: rgba(255, 255, 255, 0.7);
-            --border-color: rgba(0, 0, 0, 0.1);
-            --font-stack: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
-            --shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
-            --radius: 20px;
-        }
-
-        body.dark-mode {
-            --bg-color: #000000;
-            --card-bg: #1c1c1e;
-            --text-primary: #f5f5f7;
-            --text-secondary: #86868b;
-            --accent-color: #2997ff;
-            --nav-bg: rgba(28, 28, 30, 0.7);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            margin: 0;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: var(--font-stack);
-            overflow-x: hidden;
-            transition: background-color 0.5s ease, color 0.5s ease;
-        }
-
-        /* 滚动条美化 */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
-        
-        /* =========================================
-           2. CINEMATIC INTRO (重构版)
-           ========================================= */
-        #cinematic-intro {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: 9999; background-color: #000; /* 纯黑背景，突出主体 */
-            transition: opacity 1.0s ease 0.5s, visibility 1.0s 0.5s;
-        }
-        body.intro-finished #cinematic-intro { opacity: 0; visibility: hidden; pointer-events: none; }
-        body.intro-active { overflow: hidden; }
-        body.intro-finished { overflow-y: auto; }
-        
-        canvas { width: 100%; height: 100%; display: block; }
-        
-        #intro-text-layer {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 100%; text-align: center; pointer-events: none;
-            /* 移除 mix-blend-mode 以防止颜色混合产生杂色 */
-            z-index: 2;
-        }
-        
-        .intro-caption {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 100%; opacity: 0; filter: blur(10px);
-            transition: opacity 0.8s ease, filter 0.8s ease, transform 1s ease;
-        }
-        .intro-caption.active { opacity: 1; filter: blur(0); transform: translate(-50%, -50%) scale(1); }
-        /* 文字退出时稍微上浮 */
-        .intro-caption.exit { opacity: 0; filter: blur(20px); transform: translate(-50%, -60%); }
-        
-        .sub-title { font-size: 0.9rem; color: #a1a1aa; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 12px; font-weight: 500; }
-        .intro-h2 { font-size: 3.5rem; color: #fff; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
-        .name-title {
-            font-size: 5rem; font-weight: 800; margin: 0; color: #fff;
-            letter-spacing: -2px;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        
-        .skip-btn {
-            position: absolute; bottom: 40px; right: 40px;
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
-            color: #fff; padding: 10px 24px; border-radius: 30px;
-            cursor: pointer; font-size: 13px; backdrop-filter: blur(10px);
-            transition: all 0.3s; z-index: 1000; letter-spacing: 1px;
-        }
-        .skip-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.05); }
-
-        /* =========================================
-           3. MAIN LAYOUT
-           ========================================= */
-        #main-wrapper {
-            opacity: 0; transform: translateY(30px);
-            transition: opacity 1.2s ease 0.8s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.8s;
-        }
-        body.intro-finished #main-wrapper { opacity: 1; transform: translateY(0); }
-
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
-        
-        .navbar {
-            position: sticky; top: 0; z-index: 100; background: var(--nav-bg);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color); padding: 18px 0;
-        }
-        .nav-content { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: 800; font-size: 1.4rem; text-decoration: none; color: var(--text-primary); letter-spacing: -0.5px; }
-        .nav-links { list-style: none; display: flex; gap: 30px; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--text-secondary); font-size: 0.95rem; font-weight: 500; transition: color 0.3s; }
-        .nav-links a:hover, .nav-links a.active { color: var(--text-primary); }
-        
-        .theme-toggle { cursor: pointer; font-size: 1.2rem; background: none; border: none; padding: 5px; transition: transform 0.3s; }
-        .theme-toggle:hover { transform: rotate(15deg); }
-
-        .hero { text-align: center; padding: 120px 0 80px; }
-        .hero-title {
-            font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -1px; line-height: 1.1;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .hero-subtitle { color: var(--text-secondary); font-size: 1.3rem; margin-bottom: 50px; }
-        
-        .hero-stats { display: flex; justify-content: center; gap: 60px; }
-        .stat-item strong { display: block; font-size: 2rem; color: var(--accent-color); font-weight: 700; }
-        .stat-item span { color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
-
-        .posts-section { padding-bottom: 100px; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
-        .posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-
-        .post-card {
-            background: var(--card-bg); border-radius: var(--radius);
-            padding: 30px; border: 1px solid var(--border-color);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            text-decoration: none; color: inherit; display: flex; flex-direction: column;
-            position: relative; overflow: hidden;
-        }
-        .post-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); border-color: var(--accent-color); }
-        .post-tag { font-size: 0.8rem; font-weight: 700; color: var(--accent-color); text-transform: uppercase; margin-bottom: 15px; }
-        .post-card h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--text-primary); font-weight: 700; line-height: 1.3; }
-        .post-card p { color: var(--text-secondary); font-size: 1rem; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
-        .post-meta { font-size: 0.85rem; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center; }
-
-        .skeleton { height: 280px; background: rgba(0,0,0,0.05); border-radius: var(--radius); animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% {opacity: 0.6;} 50% {opacity: 1;} 100% {opacity: 0.6;} }
-
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.5rem; }
-            .name-title { font-size: 3.5rem; }
-            .hero-stats { gap: 30px; }
-            .nav-links { display: none; }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="intro-active">
 
-    <!-- 开场动画 -->
+    <!-- 开场：极简淡入 -->
     <div id="cinematic-intro">
-        <canvas id="intro-canvas"></canvas>
-        <div id="intro-text-layer">
-            <div class="intro-caption" data-start="0.05" data-end="0.25">
-                <p class="sub-title">Welcome</p>
-                <h2 class="intro-h2">灵感之源</h2>
-            </div>
-            <div class="intro-caption" data-start="0.30" data-end="0.60">
-                <p class="sub-title">Code & Design</p>
-                <h2 class="intro-h2">记录生活，发现美</h2>
-            </div>
-            <div class="intro-caption" data-start="0.70" data-end="0.95">
-                <p class="sub-title">Developer</p>
-                <h1 class="name-title">端木子宸</h1>
-            </div>
+        <div class="intro-inner">
+            <h1 class="intro-name">端木子宸</h1>
+            <p class="intro-sub">记录生活，发现美</p>
         </div>
-        <button class="skip-btn" id="enter-site-btn">跳过动画</button>
+        <button class="skip-btn" id="enter-site-btn">进入</button>
     </div>
 
     <!-- 主站内容 -->
     <div id="main-wrapper">
         <nav class="navbar">
             <div class="container nav-content">
-                <a href="#top" class="logo">端木子宸.</a>
+                <a href="index.html" class="logo">端木子宸</a>
                 <ul class="nav-links">
                     <li><a href="#top" class="active">首页</a></li>
                     <li><a href="#posts-section">随笔</a></li>
-                    <li><a href="#posts-section">项目</a></li>
                     <li><a href="about.html">关于</a></li>
                 </ul>
                 <!-- 手势土星组件 -->
                 <div class="saturn-wrapper">
-                    <!-- 1. 点击跳转的大图标 -->
                     <a href="tuxing.html" class="saturn-icon-btn" title="点击进入手势土星">
-                        <!-- SVG 尺寸改为 50 (加大) -->
-                        <svg width="50" height="50" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- 1. 光环后半段 (灰色 #9CA3AF) -->
-                            <path d="M28 14C31 15.5 31 19 26 21.5C23.5 22.8 20 23 18 23" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
-                            
-                            <!-- 2. 星球本体 (淡土黄 #E6D5AC) -->
+                        <svg width="44" height="44" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 1. 光环后半段 -->
+                            <path d="M28 14C31 15.5 31 19 26 21.5C23.5 22.8 20 23 18 23" stroke="#a8a49a" stroke-width="3" stroke-linecap="round"/>
+
+                            <!-- 2. 星球本体 -->
                             <circle cx="18" cy="18" r="9" fill="#E6D5AC" stroke="none"/>
                             <!-- 星球立体阴影 -->
                             <circle cx="18" cy="18" r="9" fill="url(#sphere-shadow)" style="mix-blend-mode: multiply; opacity: 0.15;"/>
-                            
-                            <!-- 3. 光环前半段 (灰色 #9CA3AF) -->
-                            <path d="M8 22C5 20.5 5 17 10 14.5C13.5 12.8 19 12.5 24 13.5" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
+
+                            <!-- 3. 光环前半段 -->
+                            <path d="M8 22C5 20.5 5 17 10 14.5C13.5 12.8 19 12.5 24 13.5" stroke="#a8a49a" stroke-width="3" stroke-linecap="round"/>
 
                             <defs>
                                 <radialGradient id="sphere-shadow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(16 16) rotate(45) scale(14)">
@@ -223,11 +53,9 @@
                             </defs>
                         </svg>
                     </a>
-                    
-                    <!-- 2. 下方文字 -->
                     <span class="saturn-text">来玩手势土星</span>
                 </div>
-                <button class="theme-toggle" id="theme-btn" title="切换主题">🌙</button>
+                <button class="theme-btn" id="theme-toggle" title="切换主题">🌙</button>
             </div>
         </nav>
 
@@ -235,7 +63,7 @@
             <section class="hero">
                 <h1 class="hero-title">Keep Hungry,<br>Keep Foolish.</h1>
                 <p class="hero-subtitle">记录我的生活。</p>
-                
+
                 <div class="hero-stats">
                     <div class="stat-item">
                         <strong id="post-count">0</strong>
@@ -254,267 +82,23 @@
 
             <section class="posts-section" id="posts-section">
                 <div class="section-header">
-                    <h2 style="font-size: 1.8rem; font-weight:700;">Recent Posts</h2>
-                    <span style="color:var(--text-secondary); font-size:0.9rem;">View All ></span>
+                    <h2 class="section-title">Recent Posts</h2>
+                    <span class="header-hint">View All ></span>
                 </div>
-                
+
                 <div id="posts-container" class="posts-grid">
-                    <div class="skeleton"></div>
-                    <div class="skeleton"></div>
-                    <div class="skeleton"></div>
+                    <div class="skeleton-loader"></div>
+                    <div class="skeleton-loader"></div>
+                    <div class="skeleton-loader"></div>
                 </div>
             </section>
-            
-            <footer style="text-align: center; color: var(--text-secondary); margin-top: 80px; padding-bottom: 40px; border-top: 1px solid var(--border-color); padding-top: 40px;">
-                &copy; 2026 端木子宸 | Crafted with code.
+
+            <footer class="footer">
+                &copy; 2026 端木子宸
             </footer>
         </main>
     </div>
 
-    <script>
-        // =========================================
-        // 核心修改：Blue Circle -> Silver Window Animation
-        // =========================================
-        const canvas = document.getElementById('intro-canvas');
-        const ctx = canvas.getContext('2d');
-        const DURATION = 8000; 
-        let startTime = null, animationFrameId, isIntroFinished = false;
-        
-        let state = { width: 0, height: 0, stars: [] };
-
-        // 缓动函数：使用 easeInOutCubic 保证变形过程顺滑
-        function easeInOutCubic(x) {
-            return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
-        }
-        function lerp(start, end, t) { return start * (1 - t) + end * t; }
-        
-        // 映射函数：限制范围
-        function map(value, low1, high1, low2, high2) {
-            let val = (value - low1) / (high1 - low1);
-            val = Math.max(0, Math.min(1, val));
-            return lerp(low2, high2, val);
-        }
-
-        function resize() {
-            state.width = window.innerWidth;
-            state.height = window.innerHeight;
-            const dpr = window.devicePixelRatio || 1;
-            canvas.width = state.width * dpr; 
-            canvas.height = state.height * dpr;
-            ctx.scale(dpr, dpr);
-            
-            // 背景粒子 (保持白色/灰色，不添加杂色)
-            state.stars = Array.from({length: 80}, () => ({
-                x: (Math.random()-0.5) * state.width * 2, 
-                y: (Math.random()-0.5) * state.height * 2,
-                z: Math.random() * 2 + 0.5,
-                size: Math.random()
-            }));
-        }
-
-        function draw(progress) {
-            const easeProgress = easeInOutCubic(progress);
-
-            // 1. 背景：纯黑
-            ctx.fillStyle = '#000000'; 
-            ctx.fillRect(0, 0, state.width, state.height);
-            
-            const cx = state.width / 2;
-            const cy = state.height / 2;
-
-            // 2. 星星/粒子 (极简风格，只用灰白色)
-            ctx.fillStyle = 'rgba(255,255,255,0.2)';
-            state.stars.forEach(s => {
-                // 模拟 Z 轴飞行，速度适中
-                let depth = s.z - (progress * 5); 
-                while(depth <= 0.1) depth += 3;
-                const scale = 1 / depth;
-                const x = cx + s.x * scale;
-                const y = cy + s.y * scale;
-                ctx.beginPath();
-                ctx.arc(x, y, s.size * scale * 1.5, 0, Math.PI*2);
-                ctx.fill();
-            });
-
-            // 3. 核心物体变形 (Blue Circle -> Silver Window)
-            // 设定变形区间：0.35 开始，0.65 结束
-            const morphStart = 0.35;
-            const morphEnd = 0.65;
-            const t = map(progress, morphStart, morphEnd, 0, 1);
-            const smoothT = easeInOutCubic(t);
-
-            ctx.save();
-            ctx.translate(cx, cy);
-
-            // A. 颜色计算 (Blue -> Silver Grey)
-            // Start: Apple Blue [0, 113, 227] (#0071e3)
-            // End: Silver Grey [229, 229, 234] (#e5e5ea - macOS light window)
-            // Start: Apple Blue [0, 113, 227]
-            // End: Dark Grey [45, 45, 50] (深空灰，类似 macOS 深色模式)
-            const r = lerp(0, 45, smoothT);
-            const g = lerp(113, 45, smoothT);
-            const b = lerp(227, 50, smoothT);
-            // B. 形状计算
-            // 初始: 宽100, 高100 (圆)
-            // 结束: 宽260, 高160 (矩形窗体)
-            const w = lerp(100, 260, smoothT);
-            const h = lerp(100, 160, smoothT);
-            
-            // 圆角计算
-            // 初始圆角: 宽度的一半 (50) -> 完美圆
-            // 结束圆角: 12 (macOS 窗口圆角)
-            const currentRadius = lerp(50, 12, smoothT);
-            
-            // 确保在变形初期它看起来像个圆
-            // 只有当宽度开始变大时，圆角才开始缩小，但不能超过当前宽度的一半
-            const actualRadius = Math.min(currentRadius, w/2);
-
-            // C. 绘制主图形
-            // 阴影
-            ctx.shadowColor = `rgba(${r},${g},${b}, 0.5)`;
-            ctx.shadowBlur = lerp(40, 20, smoothT); // 圆的时候发光大，窗体时候阴影小
-            
-            ctx.fillStyle = `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
-            ctx.beginPath();
-            if (ctx.roundRect) {
-                ctx.roundRect(-w/2, -h/2, w, h, actualRadius);
-            } else {
-                ctx.rect(-w/2, -h/2, w, h);
-            }
-            ctx.fill();
-
-            // D. 绘制 macOS 窗口控件 (红黄绿点)
-            // 仅在变形快结束且变成矩形后显示 (progress > 0.6)
-            if (smoothT > 0.8) {
-                const alpha = (smoothT - 0.8) * 5; // 0 -> 1 淡入
-                const startX = -w/2 + 20; // 左上角起始位置
-                const startY = -h/2 + 20; // 垂直居中于标题栏位置
-                const gap = 20;
-
-                // 消除阴影以免影响点
-                ctx.shadowBlur = 0;
-
-                // 红点
-                ctx.fillStyle = `rgba(255, 95, 87, ${alpha})`; // macOS Red
-                ctx.beginPath(); ctx.arc(startX, startY, 6, 0, Math.PI*2); ctx.fill();
-
-                // 黄点
-                ctx.fillStyle = `rgba(255, 189, 46, ${alpha})`; // macOS Yellow
-                ctx.beginPath(); ctx.arc(startX + gap, startY, 6, 0, Math.PI*2); ctx.fill();
-
-                // 绿点
-                ctx.fillStyle = `rgba(39, 201, 63, ${alpha})`; // macOS Green
-                ctx.beginPath(); ctx.arc(startX + gap*2, startY, 6, 0, Math.PI*2); ctx.fill();
-                
-                // 窗口内部简单的“骨架” (暗示内容)
-                ctx.fillStyle = `rgba(255,255,255, ${alpha * 0.15})`;
-                // 模拟一行标题
-                ctx.fillRect(startX, startY + 25, w - 40, 4);
-                // 模拟正文
-                ctx.fillRect(startX, startY + 38, w - 60, 4);
-                ctx.fillRect(startX, startY + 51, w - 80, 4);
-            }
-
-            ctx.restore();
-        }
-
-        function loop(ts) {
-            if (isIntroFinished) return;
-            if (!startTime) startTime = ts;
-            const elapsed = ts - startTime;
-            let progress = elapsed / DURATION;
-            if (progress > 1) progress = 1;
-
-            draw(progress);
-
-            // 字幕逻辑
-            document.querySelectorAll('.intro-caption').forEach(el => {
-                const s = parseFloat(el.dataset.start);
-                const e = parseFloat(el.dataset.end);
-                if (progress >= s && progress <= e) {
-                    el.classList.add('active');
-                    el.classList.remove('exit');
-                } else if (progress > e) {
-                    el.classList.remove('active');
-                    el.classList.add('exit');
-                } else {
-                    el.classList.remove('active');
-                    el.classList.remove('exit');
-                }
-            });
-
-            if (progress < 1) requestAnimationFrame(loop);
-            else finishIntro();
-        }
-
-        function finishIntro() {
-            if (isIntroFinished) return;
-            isIntroFinished = true;
-            document.body.classList.remove('intro-active');
-            document.body.classList.add('intro-finished');
-            setTimeout(loadSiteData, 500);
-        }
-
-        // =========================================
-        // 数据加载逻辑
-        // =========================================
-        function loadSiteData() {
-            const container = document.getElementById('posts-container');
-            
-            // 1. 请求 posts.json 文件
-            fetch('posts.json')
-                .then(response => response.json())
-                .then(data => {
-                    // 更新文章数量
-                    document.getElementById('post-count').innerText = data.length;
-                    container.innerHTML = ''; // 清除骨架屏
-
-                    // 2. 遍历数据生成卡片
-                    data.forEach(post => {
-                        const card = document.createElement('a');
-                        // 关键点：链接指向 article.html，并带上 id 参数
-                        card.href = `article.html?id=${post.id}`; 
-                        card.className = "post-card";
-                        card.innerHTML = `
-                            <div class="post-tag">${post.category}</div>
-                            <h3>${post.title}</h3>
-                            <p>${post.excerpt}</p>
-                            <div class="post-meta">
-                                <span>${post.date}</span>
-                                <span>阅读全文 →</span>
-                            </div>
-                        `;
-                        container.appendChild(card);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading posts:', error);
-                    container.innerHTML = '<p style="text-align:center">加载失败，请检查 posts.json 是否存在。</p>';
-                });
-        }
-        
-        // 增加 CSS 动画
-        const styleSheet = document.createElement("style");
-        styleSheet.innerText = `
-            @keyframes fadeInUp {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-        `;
-        document.head.appendChild(styleSheet);
-
-        const themeBtn = document.getElementById('theme-btn');
-        themeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            themeBtn.innerText = document.body.classList.contains('dark-mode') ? '🌙' : '☀️';
-        });
-
-        window.addEventListener('resize', resize);
-        document.getElementById('enter-site-btn').addEventListener('click', finishIntro);
-        
-        resize();
-        requestAnimationFrame(loop);
-
-    </script>
+    <script src="js/script.js"></script>
 </body>
 </html>
