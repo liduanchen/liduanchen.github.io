@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumière de Noël: Eternal Dream</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital@0;1&display=swap');
+
+        :root {
+            --gold: #f9d77e;
+            --accent: #ff4d4d;
+            --deep: #051412;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Cinzel', serif;
+            user-select: none;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 1;
+        }
+
+        /* UI */
+        #ui-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 10;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+        }
+
+        .header {
+            text-align: center;
+            padding-top: 4vh;
+            color: var(--gold);
+            text-shadow: 0 0 20px rgba(249, 215, 126, 0.4);
+            animation: fadeInDown 2s ease-out;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 0;
+            font-weight: 400;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 0.1em;
+            margin-top: 10px;
+        }
+
+        /* 状态指示器 */
+        .hud-container {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; height: 100%;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #gesture-hint {
+            color: white;
+            font-size: 14px;
+            letter-spacing: 2px;
+            padding: 10px 24px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        .footer-controls {
+            pointer-events: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 40px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        }
+
+        /* 高级上传按钮 */
+        .magic-btn {
+            position: relative;
+            background: rgba(10, 20, 15, 0.6);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 12px 35px;
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: 0.4s;
+            backdrop-filter: blur(5px);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .magic-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(249, 215, 126, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .magic-btn:hover {
+            box-shadow: 0 0 30px rgba(249, 215, 126, 0.3);
+            text-shadow: 0 0 10px var(--gold);
+        }
+
+        .magic-btn:hover::before {
+            left: 100%;
+        }
+
+        input[type="file"] { display: none; }
+
+        /* Debug窗口 */
+        .cam-debug {
+            width: 160px; height: 120px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4px;
+            opacity: 0.3;
+            transition: opacity 0.3s;
+            transform: scaleX(-1);
+        }
+        .cam-debug:hover { opacity: 1; }
+
+        #loader {
+            position: fixed; z-index: 100;
+            background: #000; color: var(--gold);
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+        }
+        
+        .loader-spin {
+            width: 40px; height: 40px;
+            border: 2px solid #333;
+            border-top: 2px solid var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin { 0% {transform: rotate(0deg);} 100% {transform: rotate(360deg);} }
+        @keyframes fadeInDown { from {opacity: 0; transform: translateY(-20px);} to {opacity: 1; transform: translateY(0);} }
+
+        .video-input { display: none; }
+    </style>
+    
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+                "gsap": "https://unpkg.com/gsap@3.12.5/index.js",
+                "@mediapipe/hands": "https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js",
+                "@mediapipe/camera_utils": "https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="loader-spin"></div>
+        <div id="loading-text">启动梦境引擎...</div>
+        <div style="font-size:12px; color:#666; margin-top:10px">需授予摄像头权限进行手势交互</div>
+    </div>
+
+    <!-- MediaPipe Inputs -->
+    <video class="video-input" id="input-video"></video>
+    
+    <div id="ui-layer">
+        <div class="header">
+            <h1>Noël Lumière</h1>
+            <p class="subtitle">Magical Christmas Memories</p>
+        </div>
+
+        <div class="hud-container">
+            <div id="gesture-hint">Waiting for Gesture...</div>
+        </div>
+
+        <div class="footer-controls">
+            <canvas id="cam-feedback" class="cam-debug"></canvas>
+            
+            <label for="file-input" class="magic-btn">
+                Load Memories
+            </label>
+            <input type="file" id="file-input" accept="image/*" multiple>
+        </div>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <!-- MAIN LOGIC -->
+    <script type="module">
+        import * as THREE from 'three';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+        import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+        import gsap from 'gsap';
+
+        // --- Config ---
+        const CONF = {
+            colors: {
+                treeBase: new THREE.Color('#0f382a'),
+                goldHigh: new THREE.Color('#ffddaa'),
+                goldDim:  new THREE.Color('#966a18'),
+                magicRed: new THREE.Color('#d12828')
+            },
+            treeHeight: 60,
+            treeRadius: 18,
+            particleCount: 2500,
+            camSmoothing: 0.1 // 鼠标/手势跟随的平滑度
+        };
+
+        const STATE = { TREE: 0, SCATTER: 1, PHOTO_FOCUS: 2 };
+        let currentState = STATE.TREE;
+
+        // --- Global Variables ---
+        let scene, camera, renderer, composer, bloomPass;
+        let particles, ribbonMesh, starMesh; // Objects
+        let photos = [], photoGroup = new THREE.Group();
+        let globalTime = 0;
+        let mouse = new THREE.Vector2(0,0); 
+        let targetMouse = new THREE.Vector2(0,0); // 用于Lerp平滑
+        let handCursor; // 可视化手势光球
+        
+        let hoveredPhoto = null;
+        let isPinching = false;
+
+        // Raycasting
+        const raycaster = new THREE.Raycaster();
+
+        // --- 1. System Initialization ---
+        
+        async function init() {
+            const container = document.getElementById('canvas-container');
+
+            // Scene & Camera
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x020202, 0.015);
+            
+            camera = new THREE.PerspectiveCamera(55, window.innerWidth/window.innerHeight, 0.1, 300);
+            camera.position.set(0, 15, 80);
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, stencil: false });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // 性能优化
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.toneMapping = THREE.ReinhardToneMapping;
+            renderer.toneMappingExposure = 1.2;
+            container.appendChild(renderer.domElement);
+
+            // Post-Processing (Make it Shine!)
+            const renderPass = new RenderPass(scene, camera);
+            
+            // 宽阈值，大半径 Bloom
+            bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+            bloomPass.threshold = 0.2;
+            bloomPass.strength = 1.6; // 强光
+            bloomPass.radius = 0.8;
+            
+            const outputPass = new OutputPass();
+
+            composer = new EffectComposer(renderer);
+            composer.addPass(renderPass);
+            composer.addPass(bloomPass);
+            composer.addPass(outputPass);
+
+            // Objects
+            createBackground(); // 星空
+            createMagicTree();  // 粒子树
+            createRibbons();    // 螺旋金带
+            createTopStar();    // 树顶星
+            createCursor();     // 手势光标
+            
+            scene.add(photoGroup);
+
+            // Light
+            const ambient = new THREE.AmbientLight(0xffffff, 0.2);
+            scene.add(ambient);
+            const pLight = new THREE.PointLight(CONF.colors.goldHigh, 1, 100);
+            pLight.position.set(0, 30, 20);
+            scene.add(pLight);
+
+            // Resize Event
+            window.addEventListener('resize', onResize);
+            
+            // Animation Loop
+            animate();
+            
+            // Start MediaPipe
+            initMediaPipe();
+        }
+
+        // --- 2. Shader & Object Creation ---
+
+        // 背景：深色极光/星空
+        function createBackground() {
+            const geo = new THREE.SphereGeometry(200, 32, 32);
+            const mat = new THREE.ShaderMaterial({
+                uniforms: { uTime: { value: 0 }, uColorA: {value: new THREE.Color('#000000')}, uColorB: {value: new THREE.Color('#061226')} },
+                vertexShader: `
+                    varying vec2 vUv;
+                    void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
+                `,
+                fragmentShader: `
+                    uniform float uTime;
+                    uniform vec3 uColorA;
+                    uniform vec3 uColorB;
+                    varying vec2 vUv;
+                    
+                    float random(vec2 st) { return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123); }
+
+                    void main() {
+                        float dist = length(vUv - 0.5);
+                        vec3 bg = mix(uColorB, uColorA, dist * 1.5);
+                        
+                        // 星星
+                        float stars = random(vUv * 100.0);
+                        if (stars > 0.98) bg += vec3(stars * sin(uTime + vUv.x * 10.0));
+                        
+                        gl_FragColor = vec4(bg, 1.0);
+                    }
+                `,
+                side: THREE.BackSide
+            });
+            scene.add(new THREE.Mesh(geo, mat));
+            
+            // 地面反射网格
+            const grid = new THREE.GridHelper(200, 40, 0x333333, 0x111111);
+            grid.position.y = -CONF.treeHeight/2 - 2;
+            // grid.material.transparent = true;
+            // grid.material.opacity = 0.3;
+            scene.add(grid);
+        }
+
+        // 核心粒子系统
+        function createMagicTree() {
+            const count = CONF.particleCount;
+            const geo = new THREE.BufferGeometry();
+
+            const posTree = [];
+            const posScatter = []; // 散开时的目标点
+            const extras = []; // [randomPhase, size, blinkSpeed]
+            const colors = [];
+
+            const colorSet = [CONF.colors.goldHigh, CONF.colors.goldDim, CONF.colors.treeBase, CONF.colors.magicRed, new THREE.Color(0xffffff)];
+
+            for(let i=0; i<count; i++) {
+                // Tree Form
+                const hNorm = Math.random(); 
+                const h = (hNorm - 0.5) * CONF.treeHeight; 
+                const rBase = (1.0 - hNorm) * CONF.treeRadius;
+                const r = rBase * Math.sqrt(Math.random()); // 内部填充
+                const theta = hNorm * 25.0 + Math.random() * Math.PI * 2;
+                
+                // Add some spiral arms structure
+                const armOffset = Math.sin(theta * 3.0) * 2.0; 
+
+                posTree.push(
+                    Math.cos(theta) * r + armOffset * 0.1,
+                    h,
+                    Math.sin(theta) * r + armOffset * 0.1
+                );
+
+                // Scatter Form (Cloud)
+                posScatter.push(
+                    (Math.random()-0.5) * 120,
+                    (Math.random()-0.5) * 60 + 10,
+                    (Math.random()-0.5) * 40 + 10
+                );
+
+                extras.push(Math.random() * Math.PI, Math.random(), Math.random());
+                
+                const c = colorSet[Math.floor(Math.random()*colorSet.length)];
+                colors.push(c.r, c.g, c.b);
+            }
+
+            geo.setAttribute('position', new THREE.Float32BufferAttribute(posTree, 3));
+            geo.setAttribute('aPosTree', new THREE.Float32BufferAttribute(posTree, 3));
+            geo.setAttribute('aPosScatter', new THREE.Float32BufferAttribute(posScatter, 3));
+            geo.setAttribute('aExtra', new THREE.Float32BufferAttribute(extras, 3));
+            geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+            const mat = new THREE.ShaderMaterial({
+                uniforms: {
+                    uTime: { value: 0 },
+                    uMorph: { value: 0 } // 0=tree, 1=scatter
+                },
+                vertexShader: `
+                    uniform float uTime;
+                    uniform float uMorph;
+                    attribute vec3 aPosTree;
+                    attribute vec3 aPosScatter;
+                    attribute vec3 aExtra;
+                    attribute vec3 color;
+                    varying vec3 vColor;
+                    varying float vAlpha;
+
+                    void main() {
+                        vColor = color;
+                        float blink = sin(uTime * 3.0 + aExtra.x);
+                        
+                        // 位置插值
+                        vec3 finalPos = mix(aPosTree, aPosScatter, uMorph);
+                        
+                        // 噪波运动: Tree态下轻微蠕动，Scatter态下大幅流动
+                        float noise = sin(finalPos.y * 0.1 + uTime + aExtra.z * 5.0) * (0.5 + 2.0 * uMorph);
+                        finalPos.x += noise;
+                        finalPos.z += cos(finalPos.y * 0.1 + uTime) * noise;
+
+                        // 呼吸式放大
+                        float pSize = (4.0 * aExtra.y + 2.0) * (1.0 + blink * 0.3);
+                        // 远小近大
+                        vec4 mvPos = modelViewMatrix * vec4(finalPos, 1.0);
+                        gl_PointSize = pSize * (60.0 / -mvPos.z);
+                        gl_Position = projectionMatrix * mvPos;
+                        
+                        // 透明度控制 (Fade in/out logic can be added here)
+                        vAlpha = 0.8 + 0.2 * blink;
+                    }
+                `,
+                fragmentShader: `
+                    varying vec3 vColor;
+                    varying float vAlpha;
+                    void main() {
+                        // 圆形发光粒子
+                        vec2 coord = gl_PointCoord - vec2(0.5);
